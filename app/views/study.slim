@@ -1,0 +1,23 @@
+.container
+  .row
+    h2
+      span.study.owner
+        = "#{study.title}: "
+      span.project.name style="padding-left:20px"
+        = study.aws_arn
+  / .container
+  /   .row
+  /     .col-lg-2.col-md-2.col-sm-6
+  /       span.project.attribute Repo:
+  /     .col-lg-10.col-md-10.col-sm-6
+  /       span
+  /         a.project.detail href=project.http_url #{project.http_url}
+  /   .row.top-buffer
+  /     .col-lg-2.col-md-2.col-sm-6
+  /       span.project.attribute Members:
+  /     .col-lg-10.col-md-10.col-sm-6
+  /       .row
+  /         - project.contributors.each do |contributor|
+  /           span style="padding-left: 15px;"
+  /             a.project.detail href="https://github.com/#{contributor.username}"
+  /               = "#{contributor.username}"
