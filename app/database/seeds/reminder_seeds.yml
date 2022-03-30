@@ -1,0 +1,25 @@
+---
+- study_id: 1
+  type: 'fixed'
+  code: '1234'
+  remind_date: '2022/03/29'
+  remind_time: '20:16:30'
+  content: 'please fill in this form 1: https://www.google.com.'
+- study_id: 1
+  code: '1235'
+  type: 'fixed'
+  remind_date: '2022/03/29'
+  remind_time: '20:16:32'
+  content: 'please fill in this form 2: https://www.google.com.'
+- study_id: 1
+  code: '1236'
+  type: 'fixed'
+  remind_date: '2022/03/29'
+  remind_time: '20:16:34'
+  content: 'please fill in this form 3: https://www.google.com.'
+- study_id: 2
+  code: '1237'
+  type: 'fixed'
+  remind_date: '2022/03/29'
+  remind_time: '20:16:34'
+  content: 'please fill in this form 4: https://www.google.com.'

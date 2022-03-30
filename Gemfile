@@ -20,6 +20,7 @@ gem 'sequel', '~> 5.49'
 
 group :development, :test do
   gem 'sqlite3', '~> 1.4'
+  gem 'sequel-seed'
 end
 
 # Networking

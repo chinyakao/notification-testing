@@ -1,0 +1,5 @@
+---
+- title: 'This is first study title'
+  aws_arn: 'arn:aws:sns:ap-northeast-1:793:MyTestTopic'
+- title: 'This is second study title'
+  aws_arn: 'arn:aws:sns:ap-northeast-1:7113:TEST_TOPIC_NAME'
