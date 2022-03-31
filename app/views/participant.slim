@@ -1,0 +1,64 @@
+.row.mb-3
+  h3 Participant Details
+/   .card 
+/     .card-body
+/       h4
+/         = study.title
+/       span
+/         = study.aws_arn
+/ .row.my-2
+/   h4 Participants
+/   .card 
+/     .card-body
+/       - if participants.any?
+/         table class="table"
+/           thead
+/             tr
+/               th scope="col" #
+/               th scope="col" Code
+/               th scope="col" Params
+/               th scope="col" Type
+/               th scope="col" Info
+/           tbody
+/             - participants.each.with_index do |participant, index|
+/               tr class="table-row"
+/                 th scope="row"
+/                   = index+1
+/                 td
+/                   a href="/participant/#{participant.id}"
+/                     = participant.participant_code
+/                 td
+/                   = participant.parameter
+/                 td
+/                   = participant.contact_type
+/                 td
+/                   = participant.contact_info
+/ .row.my-2
+/   h4 Reminders
+/   .card 
+/     .card-body
+/       - if reminders.any?
+/         table class="table"
+/           thead
+/             tr
+/               th scope="col" #
+/               th scope="col" Code
+/               th scope="col" Type
+/               th scope="col" Date
+/               th scope="col" Time
+/               th scope="col" Content
+/           tbody
+/             - reminders.each.with_index do |reminder, index|
+/               tr class="table-row"
+/                 th scope="row"
+/                   = index+1
+/                 td
+/                   = reminder.reminder_code
+/                 td
+/                   = reminder.type
+/                 td
+/                   = reminder.reminder_date
+/                 td
+/                   = reminder.reminder_time
+/                 td
+/                   = reminder.content

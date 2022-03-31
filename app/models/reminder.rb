@@ -18,6 +18,7 @@ module NotificationTesting
         type: 'reminder',
         attributes: {
           id: id,
+          type: type,
           reminder_code: reminder_code,
           reminder_date: reminder_date,
           reminder_time: reminder_time,

@@ -1,23 +1,64 @@
-.container
-  .row
-    h2
-      span.study.owner
-        = "#{study.title}: "
-      span.project.name style="padding-left:20px"
+.row.mb-3
+  h3 Study Details
+  .card 
+    .card-body
+      h4
+        = study.title
+      span
         = study.aws_arn
-  / .container
-  /   .row
-  /     .col-lg-2.col-md-2.col-sm-6
-  /       span.project.attribute Repo:
-  /     .col-lg-10.col-md-10.col-sm-6
-  /       span
-  /         a.project.detail href=project.http_url #{project.http_url}
-  /   .row.top-buffer
-  /     .col-lg-2.col-md-2.col-sm-6
-  /       span.project.attribute Members:
-  /     .col-lg-10.col-md-10.col-sm-6
-  /       .row
-  /         - project.contributors.each do |contributor|
-  /           span style="padding-left: 15px;"
-  /             a.project.detail href="https://github.com/#{contributor.username}"
-  /               = "#{contributor.username}"
+.row.my-2
+  h4 Participants
+  .card 
+    .card-body
+      - if participants.any?
+        table class="table"
+          thead
+            tr
+              th scope="col" #
+              th scope="col" Code
+              th scope="col" Params
+              th scope="col" Type
+              th scope="col" Info
+          tbody
+            - participants.each.with_index do |participant, index|
+              tr class="table-row"
+                th scope="row"
+                  = index+1
+                td
+                  a href="/participant/#{participant.id}"
+                    = participant.participant_code
+                td
+                  = participant.parameter
+                td
+                  = participant.contact_type
+                td
+                  = participant.contact_info
+.row.my-2
+  h4 Reminders
+  .card 
+    .card-body
+      - if reminders.any?
+        table class="table"
+          thead
+            tr
+              th scope="col" #
+              th scope="col" Code
+              th scope="col" Type
+              th scope="col" Date
+              th scope="col" Time
+              th scope="col" Content
+          tbody
+            - reminders.each.with_index do |reminder, index|
+              tr class="table-row"
+                th scope="row"
+                  = index+1
+                td
+                  = reminder.reminder_code
+                td
+                  = reminder.type
+                td
+                  = reminder.reminder_date
+                td
+                  = reminder.reminder_time
+                td
+                  = reminder.content

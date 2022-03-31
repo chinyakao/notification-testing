@@ -18,6 +18,7 @@ module NotificationTesting
         type: 'participant',
         attributes: {
           id: id,
+          participant_code: participant_code,
           column_value: column_value,
           parameter: parameter,
           contact_type: contact_type,
