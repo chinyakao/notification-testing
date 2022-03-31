@@ -1,4 +1,6 @@
 # frozen_string_literal: true
 
-require_relative './init.rb'
+require './require_app'
+require_app
+
 run NotificationTesting::App.freeze.app

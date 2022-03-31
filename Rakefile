@@ -3,13 +3,17 @@
 require 'rake/testtask'
 require './require_app'
 
+task :default do
+  puts `rake -T`
+end
+
 task :print_env do
   puts "Environment: #{ENV['RACK_ENV'] || 'development'}"
 end
 
 desc 'Run application console (pry)'
 task :console => :print_env do
-  sh 'pry -r ./spec/test_load_all'
+  sh 'pry -r ./test_load_all'
 end
 
 namespace :db do

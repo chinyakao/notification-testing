@@ -1,33 +1,33 @@
 .container
-  form role="form" action="/study" method='POST' id='show-project-form'
-    .row.vertical-align.query-bar
-      .col-md-2.col-sm-3
-        .text-right Study Title:
-      .col-md-8.col-sm-6
-        input { 
-          type='text' name='study_title'
-          id='github_url_input' class="form-control"
-          placeholder="e.g. This is first study title"
-        }
-      .col-md-2.col-sm-3
-        button { 
-          type='submit' id='project-form-submit' class='submit' 
-          value='submit' class="btn btn-success" 
-        } Show Study
-    .row
-      .col-md-12.blank-row
-    - if studys.any?
-      table class="table table-hover" id="projects_table"
-        thead
-          tr
-            th Study
-            th Study ARN
-        tbody
-          - studys.each.with_index do |study, index|
-            tr class="table-row project_row" id="project[#{index}].row"
-              td id='td_owner'
-                span class="project_table_owner" id="project[#{index}].owner"
-                  = study.title
-              td id='td_project_name'
-                span class="project_name" id="project[#{index}].name"
-                  = study.name
+  - if studys.any?
+    table class="table"
+      thead
+        tr
+          th scope="col" Study
+          th scope="col" Study ARN
+      tbody
+        - studys.each.with_index do |study, index|
+          tr class="table-row" id="survey[#{index}].row"
+            td
+              span id="survey[#{index}].title"
+                = study.title
+            td
+              span id="survey[#{index}].aws_arn"
+                = study.aws_arn
+  / form role="form" action="/study" method='POST' id='show-project-form'
+  /   .row.vertical-align.query-bar
+  /     .col-md-2.col-sm-3
+  /       .text-right Study Title:
+  /     .col-md-8.col-sm-6
+  /       input { 
+  /         type='text' name='study_title'
+  /         id='github_url_input' class="form-control"
+  /         placeholder="e.g. This is first study title"
+  /       }
+  /     .col-md-2.col-sm-3
+  /       button { 
+  /         type='submit' id='project-form-submit' class='submit' 
+  /         value='submit' class="btn btn-success" 
+  /       } Show Study
+  /   .row
+  /     .col-md-12.blank-row
