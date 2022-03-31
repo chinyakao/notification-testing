@@ -1,0 +1,8 @@
+---
+- title: 'This is first study title'
+  participant_code: 
+    - abce1234
+    - abce1235
+- title: 'This is second study title'
+  participant_code:
+    - abce1236

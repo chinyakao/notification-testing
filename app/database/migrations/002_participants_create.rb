@@ -6,15 +6,18 @@ Sequel.migration do
   change do
     create_table(:participants) do
       primary_key :id
-      foreign_key :study_id
+      foreign_key :owner_study_id, :studies
 
       String      :column_value
-      String      :parameter, unique: true, null: false
+      String      :participant_code, null: false
+      String      :parameter,        null: false
       String      :contact_type
       String      :contact_info
 
       DateTime :created_at
       DateTime :updated_at
+
+      unique %I[owner_study_id participant_code parameter]
     end
   end
 end

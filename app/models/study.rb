@@ -1,22 +1,43 @@
-# frozen_string_literal: false
+# frozen_string_literal: true
 
-require 'dry-struct'
-require 'dry-types'
-
+require 'json'
+require 'sequel'
 
 module NotificationTesting
-  module Entity
-    # Domain entity for any coding projects
-    class Study < Dry::Struct
-      include Dry.Types
+  # Models a dashboard
+  class Study < Sequel::Model
+    one_to_many :owned_participants, class: :'NotificationTesting::Participant', key: :owner_study_id
 
-      attribute :id,            Integer.optional
-      attribute :title,         Strict::String
-      attribute :aws_arn,       Strict::String
+    one_to_many :owned_reminders, class: :'NotificationTesting::Reminder', key: :owner_study_id
 
-      def to_attr_hash
-        to_hash.reject { |key, _| [:id].include? key }
-      end
+    
+    plugin :association_dependencies,
+            owned_participants: :destroy,
+            owned_reminders: :destroy
+
+    # plugin :whitelist_security
+    # set_allowed_columns :username, :email, :password
+
+    plugin :timestamps, update_on_create: true
+
+    def participants
+      owned_participants
+    end
+
+    def reminders
+      owned_reminders
+    end
+
+    def to_json(options = {})
+      JSON(
+        {
+          type: 'study',
+          attributes: {
+            title: title,
+            aws_arn: aws_arn
+          }
+        }, options
+      )
     end
   end
 end

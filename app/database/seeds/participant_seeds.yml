@@ -1,16 +1,16 @@
 ---
-- study_id: 1
-  column_value: '{"Name": "Annie Leonhart", "Gender": "F", "Height": 153, "Weight", 54}'
-  parameter: 'abce1234'
+- column_value: '{"Name": "Annie Leonhart", "Gender": "F", "Height": 153, "Weight", 54}'
+  participant_code: 'abce1234'
+  parameter: 'parameterabce1234'
   contact_type: 'email'
   contact_info: 'riley.kao@iss.nthu.edu.tw'
-- study_id: 1
-  column_value: '{"Name": "Pieck", "Gender": "F", "Height": 155, "Weight", 42}'
-  parameter: 'abce1235'
+- column_value: '{"Name": "Pieck", "Gender": "F", "Height": 155, "Weight", 42}'
+  participant_code: 'abce1235'
+  parameter: 'parameterabce1235'
   contact_type: 'sns'
   contact_info: '+886953310965'
-- study_id: 2
-  column_value: '{"Name": "Reiner Braun", "Gender": "M", "Height": 183, "Weight", 77}'
-  parameter: 'abce1236'
+- column_value: '{"Name": "Reiner Braun", "Gender": "M", "Height": 183, "Weight", 77}'
+  participant_code: 'abce1236'
+  parameter: 'parameterabce1236'
   contact_type: 'email'
   contact_info: 'smallrespect33@gmail.com'

@@ -1,27 +1,42 @@
-# frozen_string_literal: false
+# frozen_string_literal: true
 
-require 'dry-types'
-require 'dry-struct'
-
-require_relative 'study'
+require 'json'
+require 'sequel'
 
 module NotificationTesting
-  module Entity
-    # Domain entity for team members
-    class Reminder < Dry::Struct
-      include Dry.Types
+  # Models a secret assignment
+  class Reminder < Sequel::Model
+    many_to_one :owner_study, class: :'NotificationTesting::Study'
 
-      attribute :id,            Integer.optional
-      attribute :study,         Study
-      attribute :type,          Strict::String
-      attribute :code,          Strict::String
-      attribute :remind_date,   Strict::String
-      attribute :remind_time,   Strict::String
-      attribute :content,       Strict::String
+    plugin :timestamps
+    # plugin :whitelist_security
+    # set_allowed_columns :course_name
 
-      def to_attr_hash
-        to_hash.reject { |key, _| %i[id study].include? key }
-      end
+    # rubocop:disable Metrics/MethodLength
+    def to_h
+      {
+        type: 'reminder',
+        attributes: {
+          id: id,
+          reminder_code: reminder_code,
+          reminder_date: reminder_date,
+          reminder_time: reminder_time,
+          content: content
+        }
+      }
+    end
+    # rubocop:enable Metrics/MethodLength
+
+    def full_details
+      to_h.merge(
+        relationships: {
+          owner_study: owner_study,
+        }
+      )
+    end
+
+    def to_json(options = {})
+      JSON(to_h, options)
     end
   end
 end

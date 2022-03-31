@@ -18,9 +18,9 @@ module NotificationTesting
 
       # GET /
       routing.root do # rubocop:disable Metrics/BlockLength
-        studys = Repository::For.klass(Entity::Study).all
-        participants = Repository::For.klass(Entity::Participant).all
-        reminders = Repository::For.klass(Entity::Reminder).all
+        # studys = Repository::For.klass(Entity::Study).all
+        # participants = Repository::For.klass(Entity::Participant).all
+        # reminders = Repository::For.klass(Entity::Reminder).all
         view 'home', locals: { studys: studys,  participants: participants, reminders: reminders}
       end
 

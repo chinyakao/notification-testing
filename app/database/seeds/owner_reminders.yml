@@ -1,0 +1,9 @@
+---
+- title: 'This is first study title'
+  reminder_code: 
+    - '1234'
+    - '1235'
+    - '1237'
+- title: 'This is second study title'
+  reminder_code:
+    - '1236'
