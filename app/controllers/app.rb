@@ -48,6 +48,7 @@ module NotificationTesting
           end
         end
 
+        # POST /study
         routing.post do
           title = routing.params['study_title']
           study = Study.create(title: title)
@@ -82,6 +83,14 @@ module NotificationTesting
             view 'participant', locals: { study: study, participant: participant, participant_detail: participant_detail }
           end
         end
+
+        # POST /participant
+        routing.post do
+          params = routing.params
+          participant = Participant.create(params)
+
+          routing.redirect "/participant/#{participant.id}"
+        end
       end
 
       routing.on 'reminder' do
@@ -108,6 +117,15 @@ module NotificationTesting
             # Show viewer the reminder
             view 'reminder', locals: { study: study, reminder: reminder }
           end
+        end
+
+        # POST /reminder
+        routing.post do
+          binding.irb
+          params = routing.params
+          reminder = Reminder.create(params)
+
+          routing.redirect "/reminder/#{reminder.id}"
         end
       end
     end

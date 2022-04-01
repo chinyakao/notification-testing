@@ -10,7 +10,7 @@ Sequel.migration do
 
       String      :column_value
       String      :participant_code, null: false
-      String      :parameter,        null: false
+      String      :parameter
       String      :contact_type
       String      :contact_info
 

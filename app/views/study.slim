@@ -13,7 +13,31 @@
       span
         = study.aws_arn
 .row.my-2
-  h4 Participants
+  .col-2
+    h4 Participants
+  .col.pt-1 
+    button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#CreateParticipantModal"
+      i class="fas fa-plus"
+    div class="modal fade" id="CreateParticipantModal" tabindex="-1" aria-labelledby="#CreateParticipantModal" aria-hidden="true"
+      div class="modal-dialog"
+        div class="modal-content"
+          form role="form" action="/participant" method='post'
+            div class="modal-body main-color"
+              div class="form-group"
+                div.mb-2 for='name_input' Create a new Participant!
+                label.my-1 for='name_input' Participant Details
+                input class='form-control form-control-sm' name="column_value" type="text" placeholder='{:Name=> "Annie Leonhart", :Weight=> 54}'
+                label.my-1 for='name_input' Participant Code (unique)
+                input class='form-control form-control-sm' name="participant_code" type="text" placeholder="eg. 1234"
+                label.my-1 for='name_input' Contact Type
+                select class="form-select form-select-sm" name="contact_type" aria-label="Default select example"
+                  option value="sms" Sms
+                  option value="email" Email
+                label.my-1 for='name_input' Contact Info
+                input class='form-control form-control-sm' name="contact_info" type="text" placeholder="phone number or email"
+                input type="hidden" name="owner_study_id" value="#{study.id}"
+                button.my-2.float-end type="submit" class="btn btn-outline-primary btn-sm main-btn" value="submit" Create
+.row.my-2
   .card 
     .card-body
       - if participants.any?
@@ -40,7 +64,33 @@
                 td
                   = participant.contact_info
 .row.my-2
-  h4 Reminders
+  .col-2 
+    h4 Reminders
+  .col.pt-1 
+    button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#CreateReminderModal"
+      i class="fas fa-plus"
+    div class="modal fade" id="CreateReminderModal" tabindex="-1" aria-labelledby="#CreateReminderModal" aria-hidden="true"
+      div class="modal-dialog"
+        div class="modal-content"
+          form role="form" action="/reminder" method='post'
+            div class="modal-body main-color"
+              div class="form-group"
+                div.mb-2 for='name_input' Create a new Reminder!
+                label.my-1 for='name_input' Reminder Code (unique)
+                input class='form-control form-control-sm' name="reminder_code" type="text" placeholder="eg. 1234"
+                label.my-1 for='name_input' Type
+                select class="form-select form-select-sm" name="type" aria-label="Default select example"
+                  option value="fixed" fixed
+                  option value="rolling" Rolling
+                label.my-1 for='name_input' Reminder Date
+                input class='form-control form-control-sm' name="reminder_date" type="text" placeholder='eg. 2022/03/29'
+                label.my-1 for='name_input' Reminder Time 
+                input class='form-control form-control-sm' name="reminder_time" type="text" placeholder='eg. 20:16:30'
+                label.my-1 for='name_input' Content
+                input class='form-control form-control-sm' name="content" type="text" placeholder='eg. please fill in this form 2: https://www.google.com.'
+                input type="hidden" name="owner_study_id" value="#{study.id}"
+                button.my-2.float-end type="submit" class="btn btn-outline-primary btn-sm main-btn" value="submit" Create
+.row.my-2
   .card 
     .card-body
       - if reminders.any?
