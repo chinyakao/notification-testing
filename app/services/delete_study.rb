@@ -19,6 +19,7 @@ module NotificationTesting
     def call(id:)
       study = Study.where(id: id).first
       topic = @sns_resource.topic(study.aws_arn)
+      topic.subscriptions.map{|subscription| subscription.delete }
       topic.delete
       Study.where(id: id).destroy
     rescue
