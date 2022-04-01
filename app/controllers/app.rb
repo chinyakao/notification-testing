@@ -65,8 +65,8 @@ module NotificationTesting
           routing.on 'deletion' do
             routing.post do
               action = routing.params['_method']
-              Participant.where(id: participant_id).destroy if action == 'DELETE'
-          
+              # Participant.where(id: participant_id).destroy if action == 'DELETE'
+              DeleteParticipant.new(config).call(id: participant_id) if action == 'DELETE'
               redirect_route = routing.params['redirect_route']
               
               # Reroute to study
@@ -88,8 +88,8 @@ module NotificationTesting
 
         # POST /participant
         routing.post do
-          params = routing.params
-          participant = Participant.create(params)
+          # participant = Participant.create(params)
+          participant = CreateParticipant.new(config).call(participant: routing.params)
 
           routing.redirect "/participant/#{participant.id}"
         end

@@ -31,6 +31,9 @@ end
 # Networking
 gem 'http', '~> 5.0'
 
+# Notification
+gem 'aws-sdk-sns'
+
 # Testing
 group :test do
   gem 'minitest', '~> 5.0'

@@ -49,6 +49,7 @@
               th scope="col" Params
               th scope="col" Type
               th scope="col" Info
+              th scope="col" ARN
           tbody
             - participants.each.with_index do |participant, index|
               tr class="table-row"
@@ -63,6 +64,8 @@
                   = participant.contact_type
                 td
                   = participant.contact_info
+                td
+                  = participant.aws_arn
 .row.my-2
   .col-2 
     h4 Reminders

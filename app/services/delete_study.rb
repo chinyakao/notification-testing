@@ -22,7 +22,7 @@ module NotificationTesting
       topic.delete
       Study.where(id: id).destroy
     rescue
-      'fail to delete study'
+      puts 'fail to delete study'
     end
   end
 end

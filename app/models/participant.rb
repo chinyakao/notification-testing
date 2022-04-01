@@ -9,6 +9,7 @@ module NotificationTesting
     many_to_one :owner_study, class: :'NotificationTesting::Study'
 
     plugin :timestamps
+    plugin :uuid, field: :parameter
     # plugin :whitelist_security
     # set_allowed_columns :course_name
 

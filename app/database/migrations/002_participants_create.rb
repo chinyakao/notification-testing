@@ -7,12 +7,13 @@ Sequel.migration do
     create_table(:participants) do
       primary_key :id
       foreign_key :owner_study_id, :studies
-
+      uuid :parameter, primary_key: false
+      
       String      :column_value
       String      :participant_code, null: false
-      String      :parameter
       String      :contact_type
       String      :contact_info
+      String      :aws_arn
 
       DateTime :created_at
       DateTime :updated_at
