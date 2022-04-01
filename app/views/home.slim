@@ -1,5 +1,19 @@
-.row.mb-3
-  h3 All Study
+.row
+  .col-2
+    h3 All Study
+  .col.pt-1 
+    button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#CreateStudyModal"
+      i class="fas fa-plus"
+    div class="modal fade" id="CreateStudyModal" tabindex="-1" aria-labelledby="#CreateStudyModal" aria-hidden="true"
+      div class="modal-dialog"
+        div class="modal-content"
+          form role="form" action="/study" method='post'
+            div class="modal-body main-color"
+              div class="form-group"
+                label.mb-2 for='name_input' Create a new Study!
+                input class='form-control form-control-sm' name="study_title" type="text" placeholder="Study name"
+                button.my-2.float-end type="submit" class="btn btn-outline-primary btn-sm main-btn" value="submit" Create
+    .row.my-2
   - if studys.any?
     table class="table"
       thead

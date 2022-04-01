@@ -19,11 +19,23 @@ module NotificationTesting
       # GET /
       routing.root do # rubocop:disable Metrics/BlockLength
         studys = Study.all()
-        view 'home', locals: { studys: studys}
+        view 'home', locals: { studys: studys }
       end
 
       routing.on 'study' do
         routing.on String do |study_id|
+          # DELETE /study/{study_id}/deletion
+          routing.on 'deletion' do
+            routing.post do
+              action = routing.params['_method']
+              Study.where(id: study_id).destroy if action == 'DELETE'
+              redirect_route = routing.params['redirect_route']
+              
+              # Reroute to study
+              routing.redirect redirect_route
+            end
+          end
+          
           # GET /study/{study_id}
           routing.get do
             # Get study from database
@@ -34,20 +46,31 @@ module NotificationTesting
             # Show viewer the study
             view 'study', locals: { study: study, participants: participants, reminders: reminders }
           end
+        end
 
-          # DELETE /study/{study_id}/deletion
-          routing.on 'deletion' do
-            Study.where(id: study_id).destroy
-            redirect_route = routing.params['redirect_route']
-            
-            # Reroute to study
-            routing.redirect redirect_route
-          end
+        routing.post do
+          title = routing.params['study_title']
+          study = Study.create(title: title)
+
+          routing.redirect "/"
         end
       end
 
       routing.on 'participant' do
         routing.on String do |participant_id|
+          # DELETE /participant/{participant_id}/deletion
+          routing.on 'deletion' do
+            routing.post do
+              action = routing.params['_method']
+              Participant.where(id: participant_id).destroy if action == 'DELETE'
+          
+              redirect_route = routing.params['redirect_route']
+              
+              # Reroute to study
+              routing.redirect redirect_route
+            end
+          end
+
           # GET /participant/{participant_id}
           routing.get do
             # Get participant from database
@@ -58,20 +81,24 @@ module NotificationTesting
             # Show viewer the participant
             view 'participant', locals: { study: study, participant: participant, participant_detail: participant_detail }
           end
-
-          # DELETE /participant/{participant_id}/deletion
-          routing.on 'deletion' do
-            Participant.where(id: participant_id).destroy
-            redirect_route = routing.params['redirect_route']
-            
-            # Reroute to study
-            routing.redirect redirect_route
-          end
         end
       end
 
       routing.on 'reminder' do
         routing.on String do |reminder_id|
+          # DELETE /reminder/{reminder_id}/deletion
+          routing.on 'deletion' do
+            routing.post do
+              action = routing.params['_method']
+              Reminder.where(id: reminder_id).destroy if action == 'DELETE'
+
+              redirect_route = routing.params['redirect_route']
+              
+              # Reroute to study
+              routing.redirect redirect_route
+            end
+          end
+          
           # GET /reminder/{reminder_id}
           routing.get do
             # Get reminder from database
@@ -80,15 +107,6 @@ module NotificationTesting
 
             # Show viewer the reminder
             view 'reminder', locals: { study: study, reminder: reminder }
-          end
-
-          # DELETE /reminder/{reminder_id}/deletion
-          routing.on 'deletion' do
-            Reminder.where(id: reminder_id).destroy
-            redirect_route = routing.params['redirect_route']
-            
-            # Reroute to study
-            routing.redirect redirect_route
           end
         end
       end
