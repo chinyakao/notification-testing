@@ -13,7 +13,7 @@ Sequel.migration do
       String      :participant_code, null: false
       String      :contact_type
       String      :contact_info
-      String      :aws_arn
+      String      :aws_arn, unique: true
       String      :confirm_status
 
       DateTime :created_at

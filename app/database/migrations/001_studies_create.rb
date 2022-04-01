@@ -8,7 +8,8 @@ Sequel.migration do
       primary_key :id
 
       String      :title, unique: true, null: false
-      String      :aws_arn
+      String      :status, default: 'design'
+      String      :aws_arn, unique: true
 
       DateTime :created_at
       DateTime :updated_at

@@ -37,6 +37,28 @@ module NotificationTesting
               routing.redirect redirect_route
             end
           end
+
+          # POST /study/{study_id}/launch
+          routing.on 'launch' do
+            routing.post do
+              LaunchStudy.new(config).call(study_id: study_id)
+              redirect_route = routing.params['redirect_route']
+              
+              # Reroute to study
+              routing.redirect redirect_route
+            end
+          end
+
+          # POST /study/{study_id}/stop
+          routing.on 'stop' do
+            routing.post do
+              StopStudy.new(config).call(study_id: study_id)
+              redirect_route = routing.params['redirect_route']
+              
+              # Reroute to study
+              routing.redirect redirect_route
+            end
+          end
           
           # GET /study/{study_id}
           routing.get do

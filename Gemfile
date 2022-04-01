@@ -33,6 +33,7 @@ gem 'http', '~> 5.0'
 
 # Notification
 gem 'aws-sdk-sns'
+gem 'rufus-scheduler'
 
 # Testing
 group :test do

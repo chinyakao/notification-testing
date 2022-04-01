@@ -20,7 +20,9 @@
         tr
           th scope="col" #
           th scope="col" Study
+          th scope="col" Stauts
           th scope="col" Study ARN
+          th scope="col"
       tbody
         - studys.each.with_index do |study, index|
           tr class="table-row" id="study[#{index}].row"
@@ -31,22 +33,35 @@
                 a href="/study/#{study.id}"
                   = study.title
             td
+              span
+                = study.status
+            td
               span id="study[#{index}].aws_arn"
                 = study.aws_arn
-  / form role="form" action="/study" method='POST' id='show-project-form'
-  /   .row.vertical-align.query-bar
-  /     .col-md-2.col-sm-3
-  /       .text-right Study Title:
-  /     .col-md-8.col-sm-6
-  /       input { 
-  /         type='text' name='study_title'
-  /         id='github_url_input' class="form-control"
-  /         placeholder="e.g. This is first study title"
-  /       }
-  /     .col-md-2.col-sm-3
-  /       button { 
-  /         type='submit' id='project-form-submit' class='submit' 
-  /         value='submit' class="btn btn-success" 
-  /       } Show Study
-  /   .row
-  /     .col-md-12.blank-row
+            td 
+              - if study.status != 'start'
+                button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#LaunchStudyModal"
+                  i class="fas fa-play"
+                div class="modal fade" id="LaunchStudyModal" tabindex="-1" aria-labelledby="#LaunchStudyModal" aria-hidden="true"
+                  div class="modal-dialog"
+                    div class="modal-content"
+                      form role="form" action="/study/#{study.id}/launch" method='post'
+                        div class="modal-body main-color"
+                          div class="form-group"
+                            label.mb-2 for='name_input' 
+                              = "Launch Study: #{study.title} ?"
+                            input type="hidden" name="redirect_route" value="/"
+                            button.my-2.float-end type="submit" class="btn btn-outline-primary btn-sm main-btn" value="submit" Launch
+              - else 
+                button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#StopStudyModal"
+                  i class="fas fa-pause"
+                div class="modal fade" id="StopStudyModal" tabindex="-1" aria-labelledby="#StopStudyModal" aria-hidden="true"
+                  div class="modal-dialog"
+                    div class="modal-content"
+                      form role="form" action="/study/#{study.id}/stop" method='post'
+                        div class="modal-body main-color"
+                          div class="form-group"
+                            label.mb-2 for='name_input' 
+                              = "Launch Study: #{study.title} ?"
+                            input type="hidden" name="redirect_route" value="/"
+                            button.my-2.float-end type="submit" class="btn btn-outline-danger btn-sm main-btn" value="submit" Stop
