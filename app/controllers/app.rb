@@ -123,7 +123,6 @@ module NotificationTesting
 
         # POST /reminder
         routing.post do
-          binding.irb
           params = routing.params
           reminder = Reminder.create(params)
 

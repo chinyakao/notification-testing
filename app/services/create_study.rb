@@ -14,7 +14,6 @@ module NotificationTesting
         secret_access_key: config.AWS_SECRET_ACCESS_KEY,
         region: config.AWS_REGION
       )
-      # @queue = Aws::SQS::Queue.new(url: queue_url, client: sqs)
     end
 
     def call(title:)
