@@ -1,0 +1,41 @@
+.row
+  .col-2
+    h3 Reminder
+  .col.pt-1
+    button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#DeleteReminderModal_#{reminder.id}"
+      i class="fas fa-trash-alt"
+    == render :partial_delete, locals: { action:"/reminder/#{reminder.id}/deletion", id:"DeleteReminderModal_#{reminder.id}", reroute: "/study/#{study.id}", obj: "Reminder: #{reminder.reminder_code} " }
+.row.my-2
+  .card 
+    .card-body
+      .row
+        .col-2
+          b Study
+        .col-10
+          a href="/study/#{study.id}"
+            = study.title
+      .row
+        .col-2
+          b Code
+        .col-10
+          = reminder.reminder_code
+      .row
+        .col-2
+          b Type
+        .col-10
+          = reminder.type
+      .row
+        .col-2 
+          b Date
+        .col-10
+          = reminder.reminder_date
+      .row
+        .col-2 
+          b Time
+        .col-10
+          = reminder.reminder_time
+      .row
+        .col-2 
+          b Content
+        .col-10
+          = reminder.content

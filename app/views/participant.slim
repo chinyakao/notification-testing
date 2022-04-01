@@ -1,64 +1,47 @@
-.row.mb-3
-  h3 Participant Details
-/   .card 
-/     .card-body
-/       h4
-/         = study.title
-/       span
-/         = study.aws_arn
-/ .row.my-2
-/   h4 Participants
-/   .card 
-/     .card-body
-/       - if participants.any?
-/         table class="table"
-/           thead
-/             tr
-/               th scope="col" #
-/               th scope="col" Code
-/               th scope="col" Params
-/               th scope="col" Type
-/               th scope="col" Info
-/           tbody
-/             - participants.each.with_index do |participant, index|
-/               tr class="table-row"
-/                 th scope="row"
-/                   = index+1
-/                 td
-/                   a href="/participant/#{participant.id}"
-/                     = participant.participant_code
-/                 td
-/                   = participant.parameter
-/                 td
-/                   = participant.contact_type
-/                 td
-/                   = participant.contact_info
-/ .row.my-2
-/   h4 Reminders
-/   .card 
-/     .card-body
-/       - if reminders.any?
-/         table class="table"
-/           thead
-/             tr
-/               th scope="col" #
-/               th scope="col" Code
-/               th scope="col" Type
-/               th scope="col" Date
-/               th scope="col" Time
-/               th scope="col" Content
-/           tbody
-/             - reminders.each.with_index do |reminder, index|
-/               tr class="table-row"
-/                 th scope="row"
-/                   = index+1
-/                 td
-/                   = reminder.reminder_code
-/                 td
-/                   = reminder.type
-/                 td
-/                   = reminder.reminder_date
-/                 td
-/                   = reminder.reminder_time
-/                 td
-/                   = reminder.content
+.row
+  .col-2
+    h3 Participant
+  .col.pt-1
+    button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#DeleteParticipantModal_#{participant.id}"
+      i class="fas fa-trash-alt"
+    == render :partial_delete, locals: { action:"/participant/#{participant.id}/deletion", id:"DeleteParticipantModal_#{participant.id}", reroute: "/study/#{study.id}", obj: "Participant: #{participant.participant_code} " }
+.row.my-2
+  .card 
+    .card-body
+      .row
+        .col-2
+          b Study
+        .col-10
+          a href="/study/#{study.id}"
+            = study.title
+      .row
+        .col-2
+          b Code
+        .col-10
+          = participant.participant_code
+      .row
+        .col-2
+          b Params
+        .col-10
+          = participant.parameter
+      .row
+        .col-2 
+          b Type
+        .col-10
+          = participant.contact_type
+      .row
+        .col-2 
+          b Info
+        .col-10
+          = participant.contact_info
+.row.my-2
+  h3 Details
+  .card
+    .card-body
+      - participant_detail.each do |key, value|    
+        .row
+          .col-2
+            b 
+              = key
+          .col-10
+            = value

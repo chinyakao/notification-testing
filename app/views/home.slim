@@ -1,22 +1,24 @@
-- if studys.any?
-  table class="table"
-    thead
-      tr
-        th scope="col" #
-        th scope="col" Study
-        th scope="col" Study ARN
-    tbody
-      - studys.each.with_index do |study, index|
-        tr class="table-row" id="study[#{index}].row"
-          th scope="row"
-            = index+1
-          td
-            span id="study[#{index}].title"
-              a href="/study/#{study.id}"
-                = study.title
-          td
-            span id="study[#{index}].aws_arn"
-              = study.aws_arn
+.row.mb-3
+  h3 All Study
+  - if studys.any?
+    table class="table"
+      thead
+        tr
+          th scope="col" #
+          th scope="col" Study
+          th scope="col" Study ARN
+      tbody
+        - studys.each.with_index do |study, index|
+          tr class="table-row" id="study[#{index}].row"
+            th scope="row"
+              = index+1
+            td
+              span id="study[#{index}].title"
+                a href="/study/#{study.id}"
+                  = study.title
+            td
+              span id="study[#{index}].aws_arn"
+                = study.aws_arn
   / form role="form" action="/study" method='POST' id='show-project-form'
   /   .row.vertical-align.query-bar
   /     .col-md-2.col-sm-3
