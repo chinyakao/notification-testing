@@ -23,6 +23,10 @@ group :development, :test do
   gem 'sequel-seed'
 end
 
+group :production do
+  gem 'pg'
+end
+
 # Networking
 gem 'http', '~> 5.0'
 
