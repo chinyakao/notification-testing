@@ -18,10 +18,10 @@ module NotificationTesting
     end
 
     def call(study_id:)
-      # TODO: Stop scheduler job
+      # TODO: Stop scheduler job / Clear scheduler job
       study = Study.where(id: study_id).update(status: 'design')
     rescue
-      puts 'fail to launch study'
+      puts 'fail to stop study'
     end
   end
 end
