@@ -20,7 +20,7 @@ module NotificationTesting
         attributes: {
           id: id,
           participant_code: participant_code,
-          column_value: string_parse_to_hash(column_value),
+          details: string_parse_to_hash(details),
           parameter: parameter,
           contact_type: contact_type,
           contact_info: contact_info

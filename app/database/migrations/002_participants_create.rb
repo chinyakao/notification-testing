@@ -9,11 +9,12 @@ Sequel.migration do
       foreign_key :owner_study_id, :studies
       uuid :parameter, primary_key: false
       
-      String      :column_value
+      String      :details
       String      :participant_code, null: false
       String      :contact_type
       String      :contact_info
       String      :aws_arn
+      String      :confirm_status
 
       DateTime :created_at
       DateTime :updated_at

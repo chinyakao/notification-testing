@@ -20,6 +20,8 @@ module NotificationTesting
       topic_arn = Study.where(id: participant['owner_study_id']).first.aws_arn
       protocol = participant['contact_type']
       endpoint = participant['contact_info']
+      
+      # TODO: confirm_status: "pending comfirm"
       aws_arn = @sns_client.subscribe(topic_arn: topic_arn, protocol: protocol, endpoint: endpoint)[:subscription_arn]
       participant["aws_arn"] = aws_arn
 

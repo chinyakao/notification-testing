@@ -7,13 +7,13 @@ module NotificationTesting
   class GetParticipantDetail
 
     def call(participant:)
-      modified_string = participant[:column_value]
+      modified_string = participant[:details]
         .gsub(/:(\w+)/){"\"#{$1}\""}
         .gsub('=>', ':')
         .gsub("nil", "null")
-      participant[:column_value]= JSON.parse(modified_string)
+      participant[:details]= JSON.parse(modified_string)
     rescue
-      participant[:column_value]
+      participant[:details]
     end
   end
 end

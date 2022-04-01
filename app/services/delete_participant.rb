@@ -18,7 +18,7 @@ module NotificationTesting
 
     def call(id:)
       participant = Participant.where(id: id).first
-      # TODO: status: "pending comfirm"
+      # TODO: confirm_status: "pending comfirm"
       subscription = @sns_resource.subscription(participant.aws_arn).delete
 
       Participant.where(id: id).destroy if subscription.empty?
