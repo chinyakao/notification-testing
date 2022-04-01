@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'json'
-require 'sequel'
 
 module NotificationTesting
   # Models a secret assignment

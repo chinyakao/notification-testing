@@ -2,10 +2,10 @@
 
 require 'roda'
 require 'slim'
-require 'json'
 
 module NotificationTesting
   # Web App
+  # 直接call config應該ok
   class App < Roda
     plugin :render, engine: 'slim', views: 'app/views'
     plugin :public, root: 'app/views/public'
@@ -15,6 +15,8 @@ module NotificationTesting
     route do |routing|
       routing.assets # load CSS
       routing.public
+
+      config = App.config
 
       # GET /
       routing.root do # rubocop:disable Metrics/BlockLength
@@ -28,7 +30,7 @@ module NotificationTesting
           routing.on 'deletion' do
             routing.post do
               action = routing.params['_method']
-              Study.where(id: study_id).destroy if action == 'DELETE'
+              DeleteStudy.new(config).call(id: study_id) if action == 'DELETE'
               redirect_route = routing.params['redirect_route']
               
               # Reroute to study
@@ -51,7 +53,7 @@ module NotificationTesting
         # POST /study
         routing.post do
           title = routing.params['study_title']
-          study = Study.create(title: title)
+          study = CreateStudy.new(config).call(title: title)
 
           routing.redirect "/"
         end
