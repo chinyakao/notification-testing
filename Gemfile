@@ -36,25 +36,9 @@ gem 'aws-sdk-sns'
 gem 'nokogiri'
 gem 'rufus-scheduler'
 
-# Testing
-group :test do
-  gem 'minitest', '~> 5.0'
-  gem 'minitest-rg', '~> 5.0'
-  gem 'simplecov', '~> 0'
-  gem 'vcr', '~> 6.0'
-  gem 'webmock', '~> 3.0'
-end
-
 group :development do
   gem 'rerun', '~> 0'
 end
 
 # Debugging
 gem 'pry'
-
-# Code Quality
-group :development do
-  gem 'flog'
-  gem 'reek'
-  gem 'rubocop'
-end
