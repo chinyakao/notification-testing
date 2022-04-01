@@ -29,25 +29,23 @@ module NotificationTesting
       reminder_list = GetAllReminders.new.call(owner_study_id: study_id)
       study = Study.where(id: study_id).update(status: 'start')
       
-      # # reminder
-      # reminder_list.each do |reminder|
-      #   notify = "#{reminder.reminder_date} #{reminder.reminder_time}"
+      # reminder
+      reminder_list.each do |reminder|
+        notify = "#{reminder.reminder_date} #{reminder.reminder_time}"
         
-      #   @scheduler.in notify do
-      #     message = reminder.content
+        @scheduler.in notify do
+          message = reminder.content
 
-      #     puts 'Message sending.'
-      #     if message_sent?(@sns_client, topic_arn, message)
+          puts 'Message sending.'
+          if message_sent?(@sns_client, topic_arn, message)
             
-      #       puts 'The message was sent.'
-      #     else
-      #       puts 'The message was not sent. Stopping program.'
-      #       exit 1
-      #     end
-      #   end
-      # end
-
-      # @scheduler.join
+            puts 'The message was sent.'
+          else
+            puts 'The message was not sent. Stopping program.'
+            exit 1
+          end
+        end
+      end
     rescue
       puts 'fail to launch study'
     end
