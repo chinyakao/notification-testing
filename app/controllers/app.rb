@@ -20,7 +20,7 @@ module NotificationTesting
 
       # GET /
       routing.root do # rubocop:disable Metrics/BlockLength
-        studys = Study.all()
+        studys = GetAllStudies.new.call
         view 'home', locals: { studys: studys }
       end
 
@@ -41,9 +41,9 @@ module NotificationTesting
           # GET /study/{study_id}
           routing.get do
             # Get study from database
-            study = Study.where(id: study_id).first
-            participants = Participant.where(owner_study_id: study_id).all
-            reminders = Reminder.where(owner_study_id: study_id).all
+            study = GetStudy.new.call(id: study_id)
+            participants = GetAllParticipants.new.call(owner_study_id: study_id)
+            reminders = GetAllReminders.new.call(owner_study_id: study_id)
             
             # Show viewer the study
             view 'study', locals: { study: study, participants: participants, reminders: reminders }
@@ -65,7 +65,6 @@ module NotificationTesting
           routing.on 'deletion' do
             routing.post do
               action = routing.params['_method']
-              # Participant.where(id: participant_id).destroy if action == 'DELETE'
               DeleteParticipant.new(config).call(id: participant_id) if action == 'DELETE'
               redirect_route = routing.params['redirect_route']
               
@@ -77,9 +76,9 @@ module NotificationTesting
           # GET /participant/{participant_id}
           routing.get do
             # Get participant from database
-            participant = Participant.where(id: participant_id).first
+            participant = GetParticipant.new.call(id: participant_id)
             participant_detail = GetParticipantDetail.new.call(participant: participant)
-            study = Study.where(id: participant[:owner_study_id]).first
+            study = GetStudy.new.call(id: participant[:owner_study_id])
 
             # Show viewer the participant
             view 'participant', locals: { study: study, participant: participant, participant_detail: participant_detail }
@@ -113,8 +112,8 @@ module NotificationTesting
           # GET /reminder/{reminder_id}
           routing.get do
             # Get reminder from database
-            reminder = Reminder.where(id: reminder_id).first
-            study = Study.where(id: reminder[:owner_study_id]).first
+            reminder = GetReminder.new.call(id: reminder_id)
+            study = GetStudy.new.call(id: reminder[:owner_study_id])
 
             # Show viewer the reminder
             view 'reminder', locals: { study: study, reminder: reminder }
