@@ -78,6 +78,8 @@ GEM
     minitest-rg (5.2.0)
       minitest (~> 5.0)
     nio4r (2.5.8)
+    nokogiri (1.12.5-arm64-darwin)
+      racc (~> 1.4)
     parallel (1.20.1)
     parser (3.0.3.2)
       ast (~> 2.4.1)
@@ -89,6 +91,7 @@ GEM
     public_suffix (4.0.6)
     puma (5.5.2)
       nio4r (~> 2.0)
+    racc (1.6.0)
     rack (2.2.3)
     rainbow (3.0.0)
     rake (13.0.6)
@@ -161,6 +164,7 @@ DEPENDENCIES
   http (~> 5.0)
   minitest (~> 5.0)
   minitest-rg (~> 5.0)
+  nokogiri
   pg
   pry
   puma (~> 5.5)
