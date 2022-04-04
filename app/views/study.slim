@@ -1,5 +1,5 @@
 .row
-  - if study.status != 'start'
+  - if study.status != 'launched'
     .col-2
       h3 Study Details
     .col.pt-1
@@ -47,7 +47,7 @@
   .col-2
     h4 Participants
   .col.pt-1 
-    - if study.status != 'start'
+    - if study.status != 'launched'
       button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#CreateParticipantModal"
         i class="fas fa-plus"
       div class="modal fade" id="CreateParticipantModal" tabindex="-1" aria-labelledby="#CreateParticipantModal" aria-hidden="true"
@@ -102,7 +102,7 @@
   .col-2 
     h4 Reminders
   .col.pt-1 
-    - if study.status != 'start'
+    - if study.status != 'launched'
       button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#CreateReminderModal"
         i class="fas fa-plus"
       div class="modal fade" id="CreateReminderModal" tabindex="-1" aria-labelledby="#CreateReminderModal" aria-hidden="true"
@@ -116,12 +116,42 @@
                   input class='form-control form-control-sm' name="reminder_code" type="text" placeholder="eg. 1234"
                   label.my-1 for='name_input' Type
                   select class="form-select form-select-sm" name="type" aria-label="Default select example"
-                    option value="fixed" fixed
+                    option value="fixed" Fixed
                     option value="rolling" Rolling
                   label.my-1 for='name_input' Reminder Date
-                  input class='form-control form-control-sm' name="reminder_date" type="text" placeholder='eg. 2022/03/29'
+                  .row 
+                    .col-4
+                      select class="form-select form-select-sm" name="year" aria-label="Default select example"
+                        - 5.times do |index|
+                          option value="#{now_time.year+index}"
+                            = now_time.year+index
+                    .col-4
+                      select class="form-select form-select-sm" name="month" aria-label="Default select example"
+                        - 12.times do |index|
+                          option value="#{index+1}"
+                            = index+1
+                    .col-4
+                      select class="form-select form-select-sm" name="day" aria-label="Default select example"
+                        - 31.times do |index|
+                          option value="#{index+1}"
+                            = index+1 
                   label.my-1 for='name_input' Reminder Time 
-                  input class='form-control form-control-sm' name="reminder_time" type="text" placeholder='eg. 20:16:30'
+                  .row
+                    .col-4
+                      select class="form-select form-select-sm" name="hour" aria-label="Default select example"
+                        - 24.times do |index|
+                          option value="#{index}"
+                            = index 
+                    .col-4
+                      select class="form-select form-select-sm" name="min" aria-label="Default select example"
+                        - 60.times do |index|
+                          option value="#{index}"
+                            = index
+                    .col-4
+                      select class="form-select form-select-sm" name="sec" aria-label="Default select example"
+                        - 60.times do |index|
+                          option value="#{index}"
+                            = index 
                   label.my-1 for='name_input' Content
                   input class='form-control form-control-sm' name="content" type="text" placeholder='eg. please fill in this form 2: https://www.google.com.'
                   input type="hidden" name="owner_study_id" value="#{study.id}"
@@ -136,8 +166,7 @@
               th scope="col" #
               th scope="col" Code
               th scope="col" Type
-              th scope="col" Date
-              th scope="col" Time
+              th scope="col" Date & Time
               th scope="col" Content
           tbody
             - reminders.each.with_index do |reminder, index|
@@ -145,13 +174,11 @@
                 th scope="row"
                   = index+1
                 td
-                  a href="/reminder/#{reminder.id}"
-                    = reminder.reminder_code
+                  a href="/reminder/#{reminder[:attributes][:id]}"
+                    = reminder[:attributes][:reminder_code]
                 td
-                  = reminder.type
+                  = reminder[:attributes][:type]
                 td
-                  = reminder.reminder_date
+                  = reminder[:attributes][:reminder_date]
                 td
-                  = reminder.reminder_time
-                td
-                  = reminder.content
+                  = reminder[:attributes][:content]

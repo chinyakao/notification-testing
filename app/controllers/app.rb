@@ -5,7 +5,6 @@ require 'slim'
 
 module NotificationTesting
   # Web App
-  # 直接call config應該ok
   class App < Roda
     plugin :render, engine: 'slim', views: 'app/views'
     plugin :public, root: 'app/views/public'
@@ -32,7 +31,7 @@ module NotificationTesting
               action = routing.params['_method']
               DeleteStudy.new(config).call(id: study_id) if action == 'DELETE'
               redirect_route = routing.params['redirect_route']
-              
+
               # Reroute to study
               routing.redirect redirect_route
             end
@@ -43,7 +42,7 @@ module NotificationTesting
             routing.post do
               LaunchStudy.new(config).call(study_id: study_id)
               redirect_route = routing.params['redirect_route']
-              
+
               # Reroute to study
               routing.redirect redirect_route
             end
@@ -54,21 +53,22 @@ module NotificationTesting
             routing.post do
               StopStudy.new(config).call(study_id: study_id)
               redirect_route = routing.params['redirect_route']
-              
+
               # Reroute to study
               routing.redirect redirect_route
             end
           end
-          
+
           # GET /study/{study_id}
           routing.get do
             # Get study from database
             study = GetStudy.new.call(id: study_id)
             participants = GetAllParticipants.new.call(owner_study_id: study_id)
             reminders = GetAllReminders.new.call(owner_study_id: study_id)
-            
+            now_time = Time.new
+
             # Show viewer the study
-            view 'study', locals: { study: study, participants: participants, reminders: reminders }
+            view 'study', locals: { study: study, participants: participants, reminders: reminders, now_time: now_time }
           end
         end
 
@@ -77,7 +77,7 @@ module NotificationTesting
           title = routing.params['study_title']
           study = CreateStudy.new(config).call(title: title)
 
-          routing.redirect "/"
+          routing.redirect '/'
         end
       end
 
@@ -89,7 +89,7 @@ module NotificationTesting
               action = routing.params['_method']
               DeleteParticipant.new(config).call(id: participant_id) if action == 'DELETE'
               redirect_route = routing.params['redirect_route']
-              
+
               # Reroute to study
               routing.redirect redirect_route
             end
@@ -125,17 +125,17 @@ module NotificationTesting
               Reminder.where(id: reminder_id).destroy if action == 'DELETE'
 
               redirect_route = routing.params['redirect_route']
-              
+
               # Reroute to study
               routing.redirect redirect_route
             end
           end
-          
+
           # GET /reminder/{reminder_id}
           routing.get do
             # Get reminder from database
             reminder = GetReminder.new.call(id: reminder_id)
-            study = GetStudy.new.call(id: reminder[:owner_study_id])
+            study = GetStudy.new.call(id: reminder[:attributes][:owner_study].id)
 
             # Show viewer the reminder
             view 'reminder', locals: { study: study, reminder: reminder }
@@ -145,7 +145,7 @@ module NotificationTesting
         # POST /reminder
         routing.post do
           params = routing.params
-          reminder = Reminder.create(params)
+          reminder = CreateReminder.new.call(params: params)
 
           routing.redirect "/reminder/#{reminder.id}"
         end

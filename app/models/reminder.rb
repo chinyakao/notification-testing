@@ -20,9 +20,10 @@ module NotificationTesting
           id: id,
           type: type,
           reminder_code: reminder_code,
-          reminder_date: reminder_date,
-          reminder_time: reminder_time,
-          content: content
+          reminder_date: reminder_date.getlocal.strftime("%Y-%m-%d %H:%M:%S"),
+          content: content,
+          status: status,
+          owner_study: owner_study
         }
       }
     end
@@ -31,7 +32,7 @@ module NotificationTesting
     def full_details
       to_h.merge(
         relationships: {
-          owner_study: owner_study,
+          owner_study: owner_study
         }
       )
     end

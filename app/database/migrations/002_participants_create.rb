@@ -8,7 +8,7 @@ Sequel.migration do
       primary_key :id
       foreign_key :owner_study_id, :studies
       uuid :parameter, primary_key: false
-      
+
       String      :details
       String      :participant_code, null: false
       String      :contact_type

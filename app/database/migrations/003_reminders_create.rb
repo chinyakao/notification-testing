@@ -10,9 +10,9 @@ Sequel.migration do
 
       String      :type
       String      :reminder_code, null: false
-      String      :reminder_date
-      String      :reminder_time
+      Time        :reminder_date, default: Time.now
       String      :content
+      String      :status, default: 'design'
 
       DateTime :created_at
       DateTime :updated_at

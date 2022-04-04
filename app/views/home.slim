@@ -39,7 +39,7 @@
               span id="study[#{index}].aws_arn"
                 = study.aws_arn
             td 
-              - if study.status != 'start'
+              - if study.status != 'launched'
                 button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#LaunchStudyModal"
                   i class="fas fa-play"
                 div class="modal fade" id="LaunchStudyModal" tabindex="-1" aria-labelledby="#LaunchStudyModal" aria-hidden="true"

@@ -6,7 +6,6 @@ require 'rufus-scheduler'
 module NotificationTesting
   # Models a secret assignment
   class StopStudy
-
     def initialize(config)
       @scheduler = Rufus::Scheduler.new
       @config = config
@@ -19,7 +18,9 @@ module NotificationTesting
 
     def call(study_id:)
       # TODO: Stop scheduler job / Clear scheduler job
-      study = Study.where(id: study_id).update(status: 'design')
+      reminder_list = GetAllReminders.new.call(owner_study_id: study_id)
+      reminder_list.map { |reminder| Reminder.where(id: reminder.id).update(status: 'design') }
+      Study.where(id: study_id).update(status: 'design')
     rescue
       puts 'fail to stop study'
     end

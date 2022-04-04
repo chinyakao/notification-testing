@@ -4,9 +4,8 @@ require_relative 'notification'
 require 'rufus-scheduler'
 
 module NotificationTesting
-  # Models a secret assignment
+  # Services: change the study's status and the related reminders' status
   class LaunchStudy
-
     def initialize(config)
       @scheduler = Rufus::Scheduler.new
       @config = config
@@ -25,27 +24,9 @@ module NotificationTesting
     end
 
     def call(study_id:)
-      topic_arn = GetStudy.new.call(id: study_id).aws_arn
       reminder_list = GetAllReminders.new.call(owner_study_id: study_id)
-      study = Study.where(id: study_id).update(status: 'start')
-      
-      # reminder
-      reminder_list.each do |reminder|
-        notify = "#{reminder.reminder_date} #{reminder.reminder_time}"
-        
-        @scheduler.in notify do
-          message = reminder.content
-
-          puts 'Message sending.'
-          if message_sent?(@sns_client, topic_arn, message)
-            
-            puts "The message: (#{reminder.reminder_code}: #{message}) was sent."
-          else
-            puts 'The message was not sent. Stopping program.'
-            exit 1
-          end
-        end
-      end
+      reminder_list.map { |reminder| Reminder.where(id: reminder.id).update(status: 'launched') }
+      Study.where(id: study_id).update(status: 'launched')
     rescue
       puts 'fail to launch study'
     end

@@ -1,11 +1,15 @@
 .row
-  .col-2
-    h3 Reminder
-  .col.pt-1
-    - if study.status != 'start'
-      button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#DeleteReminderModal_#{reminder.id}"
+  - if study.status != 'launched'
+    .col-2
+      h3 Reminder
+    .col.pt-1
+      button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#DeleteReminderModal_#{reminder[:attributes][:id]}"
         i class="fas fa-trash-alt"
-      == render :partial_delete, locals: { action:"/reminder/#{reminder.id}/deletion", id:"DeleteReminderModal_#{reminder.id}", reroute: "/study/#{study.id}", obj: "Reminder: #{reminder.reminder_code} " }
+      == render :partial_delete, locals: { action:"/reminder/#{reminder[:attributes][:id]}/deletion", id:"DeleteReminderModal_#{reminder[:attributes][:id]}", reroute: "/study/#{study.id}", obj: "Reminder: #{reminder[:attributes][:reminder_code]} " }
+  - else
+    div class="alert alert-warning" role="alert" Study has been launched! You cannot edit/add participant or reminder
+    .col-2
+        h3 Reminder
 .row.my-2
   .card 
     .card-body
@@ -19,24 +23,19 @@
         .col-2
           b Code
         .col-10
-          = reminder.reminder_code
+          = reminder[:attributes][:reminder_code]
       .row
         .col-2
           b Type
         .col-10
-          = reminder.type
+          =  reminder[:attributes][:type]
       .row
         .col-2 
-          b Date
+          b Date & Time
         .col-10
-          = reminder.reminder_date
-      .row
-        .col-2 
-          b Time
-        .col-10
-          = reminder.reminder_time
+          =  reminder[:attributes][:reminder_date]
       .row
         .col-2 
           b Content
         .col-10
-          = reminder.content
+          =  reminder[:attributes][:content]
