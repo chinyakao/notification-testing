@@ -12,6 +12,10 @@ module NotificationTesting
     # plugin :whitelist_security
     # set_allowed_columns :course_name
 
+    # def local_running_sys(date)
+    #   Time.gm(date.year, date.month, date.day, date.hour, date.min, date.sec)
+    # end
+
     # rubocop:disable Metrics/MethodLength
     def to_h
       {
@@ -20,6 +24,7 @@ module NotificationTesting
           id: id,
           type: type,
           reminder_code: reminder_code,
+          # reminder_date: local_running_sys(reminder_date).getlocal.strftime("%Y-%m-%d %H:%M:%S"),
           reminder_date: reminder_date.getlocal.strftime("%Y-%m-%d %H:%M:%S"),
           content: content,
           status: status,

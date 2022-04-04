@@ -23,10 +23,32 @@ module NotificationTesting
       puts "Error while sending the message: #{e.message}"
     end
 
+    # def local_running_sys(date)
+    #   Time.gm(date.year, date.month, date.day, date.hour, date.min, date.sec)
+    # end
+
     def call(study_id:)
-      reminder_list = GetAllReminders.new.call(owner_study_id: study_id)
+      reminder_list = Reminder.where(owner_study_id: study_id).all
       reminder_list.map { |reminder| Reminder.where(id: reminder.id).update(status: 'launched') }
       Study.where(id: study_id).update(status: 'launched')
+      topic_arn = Study.where(id: study_id).first.aws_arn
+
+      # rufus-scheduler reminders
+      reminder_list.each do |reminder|
+        # notify = "#{local_running_sys(reminder.reminder_date).getlocal.strftime("%Y/%m/%d %H:%M:%S")}"
+        notify = "#{reminder.reminder_date.getlocal.strftime("%Y/%m/%d %H:%M:%S")}"
+
+        @scheduler.in notify do
+          message = reminder.content
+          puts 'Message sending.'
+          if message_sent?(@sns_client, topic_arn, message)
+            puts "The message: (#{reminder.reminder_code}: #{message}) was sent."
+          else
+            puts 'The message was not sent. Stopping program.'
+            exit 1
+          end
+        end
+      end
     rescue
       puts 'fail to launch study'
     end

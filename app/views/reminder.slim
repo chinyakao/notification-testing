@@ -1,15 +1,20 @@
 .row
-  - if study.status != 'launched'
-    .col-2
-      h3 Reminder
-    .col.pt-1
-      button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#DeleteReminderModal_#{reminder[:attributes][:id]}"
-        i class="fas fa-trash-alt"
-      == render :partial_delete, locals: { action:"/reminder/#{reminder[:attributes][:id]}/deletion", id:"DeleteReminderModal_#{reminder[:attributes][:id]}", reroute: "/study/#{study.id}", obj: "Reminder: #{reminder[:attributes][:reminder_code]} " }
-  - else
-    div class="alert alert-warning" role="alert" Study has been launched! You cannot edit/add participant or reminder
-    .col-2
-        h3 Reminder
+  .col-2
+    h3 Reminder
+  .col.pt-1
+    - if reminder[:attributes][:status] == 'launched'
+      button type="button" class="btn btn-outline-warning btn-sm" data-bs-toggle="modal" data-bs-target="#UnscribeModal_#{reminder[:attributes][:id]}"
+        i class="fas fa-bell-slash" Cancel
+    - if reminder[:attributes][:status] == 'design'
+      button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#UnscribeModal_#{reminder[:attributes][:id]}"
+        i class="fas fa-bell" Launch
+    span.mx-1
+     button type="button" class="btn btn-outline-warning btn-sm" data-bs-toggle="modal" data-bs-target="#UnscribeModal_#{reminder[:attributes][:id]}"
+      i class="fas fa-pen" Edit
+    span.mx-1
+    button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#DeleteReminderModal_#{reminder[:attributes][:id]}"
+      i class="fas fa-trash-alt"
+    == render :partial_delete, locals: { action:"/reminder/#{reminder[:attributes][:id]}/deletion", id:"DeleteReminderModal_#{reminder[:attributes][:id]}", reroute: "/study/#{study.id}", obj: "Reminder: #{reminder[:attributes][:reminder_code]} " }
 .row.my-2
   .card 
     .card-body

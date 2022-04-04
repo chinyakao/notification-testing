@@ -17,8 +17,7 @@ module NotificationTesting
     end
 
     def call(study_id:)
-      # TODO: Stop scheduler job / Clear scheduler job
-      reminder_list = GetAllReminders.new.call(owner_study_id: study_id)
+      reminder_list = Reminder.where(owner_study_id: study_id).all
       reminder_list.map { |reminder| Reminder.where(id: reminder.id).update(status: 'design') }
       Study.where(id: study_id).update(status: 'design')
     rescue

@@ -3,12 +3,8 @@
     .col-2
       h3 Study Details
     .col.pt-1
-      button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#DeleteStudyModal_#{study.id}"
-        i class="fas fa-trash-alt"
-      == render :partial_delete, locals: { action:"/study/#{study.id}/deletion", id:"DeleteStudyModal_#{study.id}", reroute: "/", obj: "Study: #{study.title} " }
-      span.mx-1
       button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#LaunchStudyModal"
-        i class="fas fa-play"
+        i class="fas fa-play" Launch
       div class="modal fade" id="LaunchStudyModal" tabindex="-1" aria-labelledby="#LaunchStudyModal" aria-hidden="true"
         div class="modal-dialog"
           div class="modal-content"
@@ -19,8 +15,12 @@
                     = "Launch Study: #{study.title} ?"
                   input type="hidden" name="redirect_route" value="/study/#{study.id}"
                   button.my-2.float-end type="submit" class="btn btn-outline-primary btn-sm main-btn" value="submit" Launch
+      span.mx-1
+      button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#DeleteStudyModal_#{study.id}"
+        i class="fas fa-trash-alt"
+      == render :partial_delete, locals: { action:"/study/#{study.id}/deletion", id:"DeleteStudyModal_#{study.id}", reroute: "/", obj: "Study: #{study.title} " }
   - else
-    div class="alert alert-warning" role="alert" Study has been launched! You cannot edit/add participant or reminder
+    / div class="alert alert-warning" role="alert" Study has been launched! You cannot edit/add participant or reminder
     .col-2
       h3 Study Details
     .col.pt-1
@@ -47,28 +47,30 @@
   .col-2
     h4 Participants
   .col.pt-1 
-    - if study.status != 'launched'
-      button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#CreateParticipantModal"
-        i class="fas fa-plus"
-      div class="modal fade" id="CreateParticipantModal" tabindex="-1" aria-labelledby="#CreateParticipantModal" aria-hidden="true"
-        div class="modal-dialog"
-          div class="modal-content"
-            form role="form" action="/participant" method='post'
-              div class="modal-body main-color"
-                div class="form-group"
-                  div.mb-2 for='name_input' Create a new Participant!
-                  label.my-1 for='name_input' Participant Details
-                  input class='form-control form-control-sm' name="details" type="text" placeholder='{:Name=> "Annie Leonhart", :Weight=> 54}'
-                  label.my-1 for='name_input' Participant Code (unique)
-                  input class='form-control form-control-sm' name="participant_code" type="text" placeholder="eg. 1234"
-                  label.my-1 for='name_input' Contact Type
-                  select class="form-select form-select-sm" name="contact_type" aria-label="Default select example"
-                    option value="sms" Sms
-                    option value="email" Email
-                  label.my-1 for='name_input' Contact Info
-                  input class='form-control form-control-sm' name="contact_info" type="text" placeholder="phone number or email"
-                  input type="hidden" name="owner_study_id" value="#{study.id}"
-                  button.my-2.float-end type="submit" class="btn btn-outline-primary btn-sm main-btn" value="submit" Create
+    button type="button" class="btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#ConfirmInfo_#{study.id}"
+      i class="fas fa-check" Confirm Info
+    span.mx-1
+    button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#CreateParticipantModal"
+      i class="fas fa-plus"
+    div class="modal fade" id="CreateParticipantModal" tabindex="-1" aria-labelledby="#CreateParticipantModal" aria-hidden="true"
+      div class="modal-dialog"
+        div class="modal-content"
+          form role="form" action="/participant" method='post'
+            div class="modal-body main-color"
+              div class="form-group"
+                div.mb-2 for='name_input' Create a new Participant!
+                label.my-1 for='name_input' Participant Details
+                input class='form-control form-control-sm' name="details" type="text" placeholder='{:Name=> "Annie Leonhart", :Weight=> 54}'
+                label.my-1 for='name_input' Participant Code (unique)
+                input class='form-control form-control-sm' name="participant_code" type="text" placeholder="eg. 1234"
+                label.my-1 for='name_input' Contact Type
+                select class="form-select form-select-sm" name="contact_type" aria-label="Default select example"
+                  option value="sms" Sms
+                  option value="email" Email
+                label.my-1 for='name_input' Contact Info
+                input class='form-control form-control-sm' name="contact_info" type="text" placeholder="phone number or email"
+                input type="hidden" name="owner_study_id" value="#{study.id}"
+                button.my-2.float-end type="submit" class="btn btn-outline-primary btn-sm main-btn" value="submit" Create
 .row.my-2
   .card 
     .card-body
@@ -102,60 +104,59 @@
   .col-2 
     h4 Reminders
   .col.pt-1 
-    - if study.status != 'launched'
-      button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#CreateReminderModal"
-        i class="fas fa-plus"
-      div class="modal fade" id="CreateReminderModal" tabindex="-1" aria-labelledby="#CreateReminderModal" aria-hidden="true"
-        div class="modal-dialog"
-          div class="modal-content"
-            form role="form" action="/reminder" method='post'
-              div class="modal-body main-color"
-                div class="form-group"
-                  div.mb-2 for='name_input' Create a new Reminder!
-                  label.my-1 for='name_input' Reminder Code (unique)
-                  input class='form-control form-control-sm' name="reminder_code" type="text" placeholder="eg. 1234"
-                  label.my-1 for='name_input' Type
-                  select class="form-select form-select-sm" name="type" aria-label="Default select example"
-                    option value="fixed" Fixed
-                    option value="rolling" Rolling
-                  label.my-1 for='name_input' Reminder Date
-                  .row 
-                    .col-4
-                      select class="form-select form-select-sm" name="year" aria-label="Default select example"
-                        - 5.times do |index|
-                          option value="#{now_time.year+index}"
-                            = now_time.year+index
-                    .col-4
-                      select class="form-select form-select-sm" name="month" aria-label="Default select example"
-                        - 12.times do |index|
-                          option value="#{index+1}"
-                            = index+1
-                    .col-4
-                      select class="form-select form-select-sm" name="day" aria-label="Default select example"
-                        - 31.times do |index|
-                          option value="#{index+1}"
-                            = index+1 
-                  label.my-1 for='name_input' Reminder Time 
-                  .row
-                    .col-4
-                      select class="form-select form-select-sm" name="hour" aria-label="Default select example"
-                        - 24.times do |index|
-                          option value="#{index}"
-                            = index 
-                    .col-4
-                      select class="form-select form-select-sm" name="min" aria-label="Default select example"
-                        - 60.times do |index|
-                          option value="#{index}"
-                            = index
-                    .col-4
-                      select class="form-select form-select-sm" name="sec" aria-label="Default select example"
-                        - 60.times do |index|
-                          option value="#{index}"
-                            = index 
-                  label.my-1 for='name_input' Content
-                  input class='form-control form-control-sm' name="content" type="text" placeholder='eg. please fill in this form 2: https://www.google.com.'
-                  input type="hidden" name="owner_study_id" value="#{study.id}"
-                  button.my-2.float-end type="submit" class="btn btn-outline-primary btn-sm main-btn" value="submit" Create
+    button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#CreateReminderModal"
+      i class="fas fa-plus"
+    div class="modal fade" id="CreateReminderModal" tabindex="-1" aria-labelledby="#CreateReminderModal" aria-hidden="true"
+      div class="modal-dialog"
+        div class="modal-content"
+          form role="form" action="/reminder" method='post'
+            div class="modal-body main-color"
+              div class="form-group"
+                div.mb-2 for='name_input' Create a new Reminder!
+                label.my-1 for='name_input' Reminder Code (unique)
+                input class='form-control form-control-sm' name="reminder_code" type="text" placeholder="eg. 1234"
+                label.my-1 for='name_input' Type
+                select class="form-select form-select-sm" name="type" aria-label="Default select example"
+                  option value="fixed" Fixed
+                  option value="rolling" Rolling
+                label.my-1 for='name_input' Reminder Date
+                .row 
+                  .col-4
+                    select class="form-select form-select-sm" name="year" aria-label="Default select example"
+                      - 5.times do |index|
+                        option value="#{now_time.year+index}"
+                          = now_time.year+index
+                  .col-4
+                    select class="form-select form-select-sm" name="month" aria-label="Default select example"
+                      - 12.times do |index|
+                        option value="#{index+1}"
+                          = index+1
+                  .col-4
+                    select class="form-select form-select-sm" name="day" aria-label="Default select example"
+                      - 31.times do |index|
+                        option value="#{index+1}"
+                          = index+1 
+                label.my-1 for='name_input' Reminder Time 
+                .row
+                  .col-4
+                    select class="form-select form-select-sm" name="hour" aria-label="Default select example"
+                      - 24.times do |index|
+                        option value="#{index}"
+                          = index 
+                  .col-4
+                    select class="form-select form-select-sm" name="min" aria-label="Default select example"
+                      - 60.times do |index|
+                        option value="#{index}"
+                          = index
+                  .col-4
+                    select class="form-select form-select-sm" name="sec" aria-label="Default select example"
+                      - 60.times do |index|
+                        option value="#{index}"
+                          = index 
+                label.my-1 for='name_input' Content
+                input class='form-control form-control-sm' name="content" type="text" placeholder='eg. please fill in this form 2: https://www.google.com.'
+                input type="hidden" name="owner_study_id" value="#{study.id}"
+                button.my-2.float-end type="submit" class="btn btn-outline-primary btn-sm main-btn" value="submit" Create
 .row.my-2
   .card 
     .card-body

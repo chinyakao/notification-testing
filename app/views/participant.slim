@@ -1,15 +1,16 @@
 .row
-  - if study.status != 'launched'
-    .col-2
-      h3 Participant
-    .col.pt-1
-      button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#DeleteParticipantModal_#{participant.id}"
-        i class="fas fa-trash-alt"
-      == render :partial_delete, locals: { action:"/participant/#{participant.id}/deletion", id:"DeleteParticipantModal_#{participant.id}", reroute: "/study/#{study.id}", obj: "Participant: #{participant.participant_code} " }
-  - else
-    div class="alert alert-warning" role="alert" Study has been launched! You cannot edit/add participant or reminder
-    .col-2
-      h3 Participant
+  .col-2
+    h3 Participant
+  .col.pt-1
+    button type="button" class="btn btn-outline-warning btn-sm" data-bs-toggle="modal" data-bs-target="#UnscribeModal_#{participant.id}"
+      i class="fas fa-pen" Edit Info
+    span.mx-1
+    button type="button" class="btn btn-outline-warning btn-sm" data-bs-toggle="modal" data-bs-target="#UnscribeModal_#{participant.id}"
+      i class="fas fa-bell-slash" Unsubscribe
+    span.mx-1
+    button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#DeleteParticipantModal_#{participant.id}"
+      i class="fas fa-trash-alt"
+    == render :partial_delete, locals: { action:"/participant/#{participant.id}/deletion", id:"DeleteParticipantModal_#{participant.id}", reroute: "/study/#{study.id}", obj: "Participant: #{participant.participant_code} " }
 .row.my-2
   .card 
     .card-body
