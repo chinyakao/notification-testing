@@ -75,13 +75,21 @@ module NotificationTesting
         # POST /study
         routing.post do
           title = routing.params['study_title']
-          study = CreateStudy.new(config).call(title: title)
+          CreateStudy.new(config).call(title: title)
 
           routing.redirect '/'
         end
       end
 
       routing.on 'participant' do
+        routing.on 'confirm_status' do
+          routing.get do
+            study_id = routing.params['study_id']
+            ConfirmParticipantStatus.new(config).call(study_id: study_id)
+            routing.redirect "/study/#{study_id}"
+          end
+        end
+
         routing.on String do |participant_id|
           # DELETE /participant/{participant_id}/deletion
           routing.on 'deletion' do
@@ -111,7 +119,6 @@ module NotificationTesting
         routing.post do
           # participant = Participant.create(params)
           participant = CreateParticipant.new(config).call(participant: routing.params)
-
           routing.redirect "/participant/#{participant.id}"
         end
       end

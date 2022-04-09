@@ -5,7 +5,6 @@ require_relative 'notification'
 module NotificationTesting
   # Models a secret assignment
   class CreateParticipant
-
     def initialize(config)
       @config = config
       @sns_client = Aws::SNS::Client.new(
@@ -19,11 +18,9 @@ module NotificationTesting
       topic_arn = Study.where(id: participant['owner_study_id']).first.aws_arn
       protocol = participant['contact_type']
       endpoint = participant['contact_info']
-      
-      # TODO: confirm_status: "pending comfirm"
-      aws_arn = @sns_client.subscribe(topic_arn: topic_arn, protocol: protocol, endpoint: endpoint)[:subscription_arn]
-      participant["aws_arn"] = aws_arn
 
+      aws_arn = @sns_client.subscribe(topic_arn: topic_arn, protocol: protocol, endpoint: endpoint)[:subscription_arn]
+      participant['aws_arn'] = aws_arn
       Participant.create(participant) if aws_arn
     rescue
       puts 'fail to create participant'

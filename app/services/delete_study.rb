@@ -5,7 +5,6 @@ require_relative 'notification'
 module NotificationTesting
   # Models a secret assignment
   class DeleteStudy
-
     def initialize(config)
       @config = config
       @sns_resource = Aws::SNS::Resource.new(
@@ -18,7 +17,7 @@ module NotificationTesting
     def call(id:)
       study = Study.where(id: id).first
       topic = @sns_resource.topic(study.aws_arn)
-      topic.subscriptions.map{|subscription| subscription.delete }
+      topic.subscriptions.map(&:delete)
       topic.delete
       Study.where(id: id).destroy
     rescue

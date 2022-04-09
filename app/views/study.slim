@@ -46,9 +46,11 @@
 .row.my-2
   .col-2
     h4 Participants
-  .col.pt-1 
-    button type="button" class="btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#ConfirmInfo_#{study.id}"
-      i class="fas fa-check" Confirm Info
+  .col.pt-1
+    form.float-start role="form" action="/participant/confirm_status" method='get'
+      input type="hidden" name="study_id" value="#{study.id}" 
+      button type="submit" class="btn btn-outline-success btn-sm"
+        i class="fas fa-check" &ensp;Update Confirm Status
     span.mx-1
     button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#CreateParticipantModal"
       i class="fas fa-plus"
@@ -81,9 +83,8 @@
               th scope="col" #
               th scope="col" Code
               th scope="col" Params
-              th scope="col" Type
-              th scope="col" Info
-              th scope="col" ARN
+              th scope="col" Contact Info
+              th scope="col" AWS ARN (aws uuid)
           tbody
             - participants.each.with_index do |participant, index|
               tr class="table-row"
@@ -94,8 +95,6 @@
                     = participant.participant_code
                 td
                   = participant.parameter
-                td
-                  = participant.contact_type
                 td
                   = participant.contact_info
                 td

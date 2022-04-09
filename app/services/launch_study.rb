@@ -23,9 +23,9 @@ module NotificationTesting
       puts "Error while sending the message: #{e.message}"
     end
 
-    # def local_running_sys(date)
-    #   Time.gm(date.year, date.month, date.day, date.hour, date.min, date.sec)
-    # end
+    def local_running_sys(date)
+      Time.gm(date.year, date.month, date.day, date.hour, date.min, date.sec)
+    end
 
     def call(study_id:)
       reminder_list = Reminder.where(owner_study_id: study_id).all
@@ -35,8 +35,8 @@ module NotificationTesting
 
       # rufus-scheduler reminders
       reminder_list.each do |reminder|
-        # notify = "#{local_running_sys(reminder.reminder_date).getlocal.strftime("%Y/%m/%d %H:%M:%S")}"
-        notify = "#{reminder.reminder_date.getlocal.strftime("%Y/%m/%d %H:%M:%S")}"
+        notify = "#{local_running_sys(reminder.reminder_date).getlocal.strftime("%Y/%m/%d %H:%M:%S")}"
+        # notify = "#{reminder.reminder_date.getlocal.strftime("%Y/%m/%d %H:%M:%S")}"
 
         @scheduler.in notify do
           message = reminder.content

@@ -14,12 +14,12 @@ Sequel.migration do
       String      :contact_type
       String      :contact_info
       String      :aws_arn, unique: true
-      String      :confirm_status
+      Bool        :confirm_status, default: false
 
       DateTime :created_at
       DateTime :updated_at
 
-      unique %I[owner_study_id participant_code parameter]
+      unique %I[owner_study_id participant_code parameter contact_info]
     end
   end
 end

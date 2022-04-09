@@ -5,7 +5,6 @@ require_relative 'notification'
 module NotificationTesting
   # Models a secret assignment
   class DeleteParticipant
-
     def initialize(config)
       @config = config
       @sns_resource = Aws::SNS::Resource.new(
@@ -17,7 +16,6 @@ module NotificationTesting
 
     def call(id:)
       participant = Participant.where(id: id).first
-      # TODO: confirm_status: "pending comfirm"
       subscription = @sns_resource.subscription(participant.aws_arn).delete
 
       Participant.where(id: id).destroy if subscription.empty?

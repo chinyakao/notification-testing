@@ -4,16 +4,16 @@
   contact_type: 'email'
   contact_info: 'riley.kao@iss.nthu.edu.tw'
   aws_arn: 'arn:aws:sns:ap-northeast-1:7113:TEST_TOPIC_NAME::abce1234'
-  confirm_status: 'confirm'
+  confirm_status: false
 - details: '{:Name=> "Pieck", :Gender=> "F", :Height=> 155, :Weight=> 42}'
   participant_code: 'abce1235'
   contact_type: 'sns'
   contact_info: '+886953310965'
   aws_arn: 'arn:aws:sns:ap-northeast-1:7113:TEST_TOPIC_NAME::abce1235'
-  confirm_status: 'confirm'
+  confirm_status: false
 - details: '{:Name=> "Reiner Braun", :Gender=> "M", :Height=> 183, :Weight=> 77}'
   participant_code: 'abce1236'
   contact_type: 'email'
   contact_info: 'smallrespect33@gmail.com'
   aws_arn: 'arn:aws:sns:ap-northeast-1:7113:TEST_TOPIC_NAME::abce1236'
-  confirm_status: 'confirm'
+  confirm_status: false
