@@ -10,15 +10,14 @@ module NotificationTesting
 
     one_to_many :owned_reminders, class: :'NotificationTesting::Reminder', key: :owner_study_id
 
-    
     plugin :association_dependencies,
-            owned_participants: :destroy,
-            owned_reminders: :destroy
+           owned_participants: :destroy,
+           owned_reminders: :destroy
+    plugin :uuid, field: :id
+    plugin :timestamps, update_on_create: true
 
     # plugin :whitelist_security
     # set_allowed_columns :username, :email, :password
-
-    plugin :timestamps, update_on_create: true
 
     def participants
       owned_participants

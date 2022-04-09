@@ -4,7 +4,7 @@
       h3 Study Details
     .col.pt-1
       button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#LaunchStudyModal"
-        i class="fas fa-play" Launch
+        i class="fas fa-play" &ensp;Launch
       div class="modal fade" id="LaunchStudyModal" tabindex="-1" aria-labelledby="#LaunchStudyModal" aria-hidden="true"
         div class="modal-dialog"
           div class="modal-content"
@@ -63,8 +63,8 @@
                 div.mb-2 for='name_input' Create a new Participant!
                 label.my-1 for='name_input' Participant Details
                 input class='form-control form-control-sm' name="details" type="text" placeholder='{:Name=> "Annie Leonhart", :Weight=> 54}'
-                label.my-1 for='name_input' Participant Code (unique)
-                input class='form-control form-control-sm' name="nickname" type="text" placeholder="eg. 1234"
+                label.my-1 for='name_input' Nickname (unique)
+                input class='form-control form-control-sm' name="nickname" type="text" placeholder="eg. nick"
                 label.my-1 for='name_input' Contact Type
                 select class="form-select form-select-sm" name="contact_type" aria-label="Default select example"
                   option value="sms" Sms
@@ -81,8 +81,7 @@
           thead
             tr
               th scope="col" #
-              th scope="col" Code
-              th scope="col" Params
+              th scope="col" Nickname
               th scope="col" Contact Info
               th scope="col" AWS ARN (aws uuid)
           tbody
@@ -93,8 +92,6 @@
                 td
                   a href="/participant/#{participant.id}"
                     = participant.nickname
-                td
-                  = participant.parameter
                 td
                   = participant.contact_info
                 td
@@ -112,8 +109,8 @@
             div class="modal-body main-color"
               div class="form-group"
                 div.mb-2 for='name_input' Create a new Reminder!
-                label.my-1 for='name_input' Reminder Code (unique)
-                input class='form-control form-control-sm' name="title" type="text" placeholder="eg. 1234"
+                label.my-1 for='name_input' Title (unique)
+                input class='form-control form-control-sm' name="title" type="text" placeholder="eg. morning_call"
                 label.my-1 for='name_input' Type
                 select class="form-select form-select-sm" name="type" aria-label="Default select example"
                   option value="fixed" Fixed
@@ -152,7 +149,7 @@
                       - 60.times do |index|
                         option value="#{index}"
                           = index 
-                label.my-1 for='name_input' Content
+                label.my-1 for='name_input' Content (shown in reminder message)
                 input class='form-control form-control-sm' name="content" type="text" placeholder='eg. please fill in this form 2: https://www.google.com.'
                 input type="hidden" name="owner_study_id" value="#{study.id}"
                 button.my-2.float-end type="submit" class="btn btn-outline-primary btn-sm main-btn" value="submit" Create
@@ -164,7 +161,7 @@
           thead
             tr
               th scope="col" #
-              th scope="col" Code
+              th scope="col" Title
               th scope="col" Type
               th scope="col" Date & Time
               th scope="col" Content

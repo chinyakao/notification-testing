@@ -6,7 +6,7 @@ Sequel.migration do
   change do
     create_table(:reminders) do
       primary_key :id
-      foreign_key :owner_study_id, :studies
+      foreign_key :owner_study_id, :studies, type: :uuid
 
       String      :type
       String      :title, null: false

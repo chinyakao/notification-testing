@@ -5,7 +5,6 @@ require_relative 'notification'
 module NotificationTesting
   # Models a secret assignment
   class CreateStudy
-
     def initialize(config)
       @config = config
       @sns_client = Aws::SNS::Client.new(
@@ -16,8 +15,9 @@ module NotificationTesting
     end
 
     def call(title:)
-      study_arn = @sns_client.create_topic(name: title)[:topic_arn]
-      Study.create(title: title, aws_arn: study_arn)
+      study = Study.create(title: title, aws_arn: 'pending')
+      study_arn = @sns_client.create_topic(name: study.id)[:topic_arn]
+      Study.where(id: study.id).update(aws_arn: study_arn)
     rescue
       puts 'fail to create study'
     end

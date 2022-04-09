@@ -9,7 +9,7 @@ module NotificationTesting
     many_to_one :owner_study, class: :'NotificationTesting::Study'
 
     plugin :timestamps
-    plugin :uuid, field: :parameter
+    plugin :uuid, field: :id
     # plugin :whitelist_security
     # set_allowed_columns :course_name
 
@@ -21,7 +21,6 @@ module NotificationTesting
           id: id,
           nickname: nickname,
           details: string_parse_to_hash(details),
-          parameter: parameter,
           contact_type: contact_type,
           contact_info: contact_info
         }
