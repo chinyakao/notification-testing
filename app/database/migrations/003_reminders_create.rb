@@ -9,7 +9,7 @@ Sequel.migration do
       foreign_key :owner_study_id, :studies
 
       String      :type
-      String      :reminder_code, null: false
+      String      :title, null: false
       Time        :reminder_date, default: Time.now
       String      :content
       String      :status, default: 'design'
@@ -17,7 +17,7 @@ Sequel.migration do
       DateTime :created_at
       DateTime :updated_at
 
-      unique %I[owner_study_id reminder_code]
+      unique %I[owner_study_id title]
     end
   end
 end

@@ -10,7 +10,7 @@ Sequel.migration do
       uuid :parameter, primary_key: false
 
       String      :details
-      String      :participant_code, null: false
+      String      :nickname, null: false
       String      :contact_type
       String      :contact_info
       String      :aws_arn, unique: true
@@ -19,7 +19,7 @@ Sequel.migration do
       DateTime :created_at
       DateTime :updated_at
 
-      unique %I[owner_study_id participant_code parameter contact_info]
+      unique %I[owner_study_id nickname parameter contact_info]
     end
   end
 end

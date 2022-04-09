@@ -42,7 +42,7 @@ module NotificationTesting
           message = reminder.content
           puts 'Message sending.'
           if message_sent?(@sns_client, topic_arn, message)
-            puts "The message: (#{reminder.reminder_code}: #{message}) was sent."
+            puts "The message: (#{reminder.title}: #{message}) was sent."
           else
             puts 'The message was not sent. Stopping program.'
             exit 1

@@ -14,7 +14,7 @@
     span.mx-1
     button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#DeleteReminderModal_#{reminder[:attributes][:id]}"
       i class="fas fa-trash-alt"
-    == render :partial_delete, locals: { action:"/reminder/#{reminder[:attributes][:id]}/deletion", id:"DeleteReminderModal_#{reminder[:attributes][:id]}", reroute: "/study/#{study.id}", obj: "Reminder: #{reminder[:attributes][:reminder_code]} " }
+    == render :partial_delete, locals: { action:"/reminder/#{reminder[:attributes][:id]}/deletion", id:"DeleteReminderModal_#{reminder[:attributes][:id]}", reroute: "/study/#{study.id}", obj: "Reminder: #{reminder[:attributes][:title]} " }
 .row.my-2
   .card 
     .card-body
@@ -28,7 +28,7 @@
         .col-2
           b Code
         .col-10
-          = reminder[:attributes][:reminder_code]
+          = reminder[:attributes][:title]
       .row
         .col-2
           b Type

@@ -1,8 +1,8 @@
 ---
 - title: 'This is first study title'
-  participant_code: 
+  nickname: 
     - abce1234
     - abce1235
 - title: 'This is second study title'
-  participant_code:
+  nickname:
     - abce1236

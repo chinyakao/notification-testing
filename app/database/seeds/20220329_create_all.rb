@@ -29,8 +29,8 @@ end
 def create_owned_participants
   OWNER_PARTICIPANTS_INFO.each do |owner_study|
     study = NotificationTesting::Study.first(title: owner_study['title'])
-    owner_study['participant_code'].each do |participant_code|
-      participant_data = PARTICIPANTS_INFO.find { |participant| participant['participant_code'] == participant_code }
+    owner_study['nickname'].each do |nickname|
+      participant_data = PARTICIPANTS_INFO.find { |participant| participant['nickname'] == nickname }
       study.add_owned_participant(participant_data)
     end
   end
@@ -39,8 +39,8 @@ end
 def create_owned_reminders
   OWNER_REMINDERS_INFO.each do |owner_study|
     study = NotificationTesting::Study.first(title: owner_study['title'])
-    owner_study['reminder_code'].each do |reminder_code|
-      reminder_data = REMINDERS_INFO.find { |reminder| reminder['reminder_code'] == reminder_code }
+    owner_study['title'].each do |title|
+      reminder_data = REMINDERS_INFO.find { |reminder| reminder['title'] == title }
       study.add_owned_reminder(reminder_data)
     end
   end

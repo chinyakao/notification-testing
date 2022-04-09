@@ -10,7 +10,7 @@
     span.mx-1
     button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#DeleteParticipantModal_#{participant.id}"
       i class="fas fa-trash-alt"
-    == render :partial_delete, locals: { action:"/participant/#{participant.id}/deletion", id:"DeleteParticipantModal_#{participant.id}", reroute: "/study/#{study.id}", obj: "Participant: #{participant.participant_code} " }
+    == render :partial_delete, locals: { action:"/participant/#{participant.id}/deletion", id:"DeleteParticipantModal_#{participant.id}", reroute: "/study/#{study.id}", obj: "Participant: #{participant.nickname} " }
 .row.my-2
   .card 
     .card-body
@@ -24,7 +24,7 @@
         .col-2
           b Code
         .col-10
-          = participant.participant_code
+          = participant.nickname
       .row
         .col-2
           b Params
