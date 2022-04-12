@@ -10,8 +10,6 @@ module NotificationTesting
 
     plugin :timestamps
     plugin :uuid, field: :id
-    # plugin :whitelist_security
-    # set_allowed_columns :course_name
 
     # rubocop:disable Metrics/MethodLength
     def to_h

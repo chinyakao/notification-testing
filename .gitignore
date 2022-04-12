@@ -3,4 +3,5 @@ coverage/*
 !coverage/.resultset.json
 _snippets/
 *.db
+*.rdb
 .bundle/

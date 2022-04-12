@@ -12,7 +12,6 @@ Sequel.migration do
       String      :title, null: false
       Time        :reminder_date, default: Time.now
       String      :content
-      String      :status, default: 'design'
 
       DateTime :created_at
       DateTime :updated_at

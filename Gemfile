@@ -34,7 +34,7 @@ gem 'http', '~> 5.0'
 # Notification
 gem 'aws-sdk-sns'
 gem 'nokogiri'
-gem 'rufus-scheduler'
+gem 'sidekiq-scheduler'
 
 group :development do
   gem 'rerun', '~> 0'

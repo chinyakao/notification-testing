@@ -9,8 +9,6 @@ module NotificationTesting
     many_to_one :owner_study, class: :'NotificationTesting::Study'
 
     plugin :timestamps
-    # plugin :whitelist_security
-    # set_allowed_columns :course_name
 
     # def local_running_sys(date)
     #   Time.gm(date.year, date.month, date.day, date.hour, date.min, date.sec)
@@ -24,10 +22,9 @@ module NotificationTesting
           id: id,
           type: type,
           title: title,
-          # reminder_date: local_running_sys(reminder_date).getlocal.strftime("%Y-%m-%d %H:%M:%S"),
-          reminder_date: reminder_date.getlocal.strftime("%Y-%m-%d %H:%M:%S"),
+          # reminder_date: local_running_sys(reminder_date).getlocal.strftime('%Y-%m-%d %H:%M:%S'),
+          reminder_date: reminder_date.getlocal.strftime('%Y-%m-%d %H:%M:%S'),
           content: content,
-          status: status,
           owner_study: owner_study
         }
       }

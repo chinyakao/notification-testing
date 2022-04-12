@@ -1,0 +1,12 @@
+# config/sidekiq.yml
+
+:dynamic: true
+# :dynamic_every: <if dynamic is true, the schedule is reloaded every interval [5s by default]>
+:queues:
+  - default
+:schedule:
+  work_well:
+    cron: '0 * * * *'   # Runs once per minute
+    class: Jobs::WorkWell
+    description: "This job shows the scheduler work well"
+    enabled: true

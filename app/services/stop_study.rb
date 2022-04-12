@@ -2,6 +2,8 @@
 
 require_relative 'notification'
 require 'rufus-scheduler'
+require 'sidekiq-scheduler'
+require 'sidekiq/api'
 
 module NotificationTesting
   # Models a secret assignment
@@ -16,9 +18,24 @@ module NotificationTesting
       )
     end
 
+    def local_running_sys(date)
+      Time.gm(date.year, date.month, date.day, date.hour, date.min, date.sec)
+    end
+
     def call(study_id:)
       reminder_list = Reminder.where(owner_study_id: study_id).all
-      reminder_list.map { |reminder| Reminder.where(id: reminder.id).update(status: 'design') }
+
+      # scheduler reminders
+      reminder_list.each do |reminder|
+        reminer_title = "#{reminder.title}_#{reminder.id}"
+        # reminder_time = "#{local_running_sys(reminder.reminder_date).getlocal.strftime('%Y/%m/%d %H:%M:%S')}"
+        reminder_time = "#{reminder.reminder_date.getlocal.strftime('%Y/%m/%d %H:%M:%S')}"
+
+        # fixed
+        Sidekiq.set_schedule(reminer_title, { 'at' => [reminder_time],
+                                              'class' => 'Jobs::SendReminder',
+                                              'enabled' => false })
+      end
       Study.where(id: study_id).update(status: 'design')
     rescue
       puts 'fail to stop study'
