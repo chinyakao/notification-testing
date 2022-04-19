@@ -26,7 +26,7 @@ module Jobs
       )
       sns_client.publish(topic_arn: topic_arn, message: message)
 
-      puts 'The message was sent.'
+      puts "The message: #{message} was sent."
     end
   end
 end

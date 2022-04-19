@@ -8,8 +8,8 @@ Sequel.migration do
       primary_key :id
       foreign_key :owner_study_id, :studies, type: :uuid
 
-      String      :type
-      String      :title, null: false
+      String      :type, default: 'fixed'
+      String      :title, default: 'study_reminder', null: false
       Time        :reminder_date, default: Time.now
       String      :content
 

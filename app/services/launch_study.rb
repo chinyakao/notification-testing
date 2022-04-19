@@ -24,12 +24,15 @@ module NotificationTesting
       topic_arn = Study.where(id: study_id).first.aws_arn
 
       # scheduler reminders
-      reminder_list.each do |reminder|
-        reminer_title = "#{reminder.title}_#{reminder.id}"
-        # reminder_time = "#{local_running_sys(reminder.reminder_date).getlocal.strftime('%Y/%m/%d %H:%M:%S')}"
-        reminder_time = "#{reminder.reminder_date.getlocal.strftime('%Y/%m/%d %H:%M:%S')}"
+      reminder_list.map do |reminder|
+        # expired or not
+        next unless reminder.reminder_date > Time.now.utc
 
-        # fixed
+        reminer_title = "#{reminder.title}_#{reminder.id}"
+        # reminder_time = local_running_sys(reminder.reminder_date).getlocal.strftime('%Y/%m/%d %H:%M:%S')
+        reminder_time = reminder.reminder_date.getlocal.strftime('%Y/%m/%d %H:%M:%S')
+
+        # ISSUE: encode the credential, scheduler timezone
         Sidekiq.set_schedule(reminer_title, { 'at' => [reminder_time],
                                               'class' => 'Jobs::SendReminder',
                                               'enabled' => true,
@@ -38,6 +41,7 @@ module NotificationTesting
                                                          @config.AWS_REGION,
                                                          topic_arn,
                                                          reminder.content] })
+        # puts "create scheduler: #{reminer_title}"
       end
       Study.where(id: study_id).update(status: 'launched')
     rescue

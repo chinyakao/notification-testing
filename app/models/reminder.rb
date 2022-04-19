@@ -10,9 +10,9 @@ module NotificationTesting
 
     plugin :timestamps
 
-    # def local_running_sys(date)
-    #   Time.gm(date.year, date.month, date.day, date.hour, date.min, date.sec)
-    # end
+    def local_running_sys(date)
+      Time.gm(date.year, date.month, date.day, date.hour, date.min, date.sec)
+    end
 
     # rubocop:disable Metrics/MethodLength
     def to_h

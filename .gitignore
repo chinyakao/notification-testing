@@ -5,3 +5,4 @@ _snippets/
 *.db
 *.rdb
 .bundle/
+.DS_Store
