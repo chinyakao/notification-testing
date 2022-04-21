@@ -34,7 +34,7 @@ module NotificationTesting
 
         # ISSUE: encode the credential, scheduler timezone
         Sidekiq.set_schedule(reminer_title, { 'at' => [reminder_time],
-                                              'class' => 'Jobs::SendReminder',
+                                              'class' => 'Workers::SendReminder',
                                               'enabled' => true,
                                               'args' => [@config.AWS_ACCESS_KEY_ID,
                                                          @config.AWS_SECRET_ACCESS_KEY,

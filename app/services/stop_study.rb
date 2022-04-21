@@ -33,7 +33,7 @@ module NotificationTesting
 
         # fixed
         Sidekiq.set_schedule(reminer_title, { 'at' => [reminder_time],
-                                              'class' => 'Jobs::SendReminder',
+                                              'class' => 'Workers::SendReminder',
                                               'enabled' => false })
       end
       Study.where(id: study_id).update(status: 'design')
