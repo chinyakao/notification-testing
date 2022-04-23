@@ -16,9 +16,21 @@ module NotificationTesting
 
     def call(id:)
       study = Study.where(id: id).first
+
+      # AWS: delete subscription(participants) and topic(study)
       topic = @sns_resource.topic(study.aws_arn)
-      topic.subscriptions.map(&:delete)
+      unless topic.subscriptions.first.nil?
+        topic.subscriptions.each do |subscribe|
+          subscribe.delete unless subscribe.arn == 'PendingConfirmation'
+        end
+      end
       topic.delete
+
+      # Schedule: delete related schedule
+      reminder_list = Reminder.where(owner_study_id: id).all
+      reminder_list.map { |reminder| DeleteReminder.new.call(id: reminder.id) }
+
+      # DB: delete related entity in database
       Study.where(id: id).destroy
     rescue
       puts 'fail to delete study'

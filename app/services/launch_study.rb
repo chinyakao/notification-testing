@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'notification'
 require 'sidekiq-scheduler'
 
 module NotificationTesting
@@ -21,16 +20,21 @@ module NotificationTesting
 
       # scheduler reminders
       reminder_list.map do |reminder|
-        # expired or not
-        next unless reminder.reminder_date > Time.now.utc
-
         reminer_title = "#{reminder.title}_#{reminder.id}"
-        puts "Create scheduler: #{reminer_title}"
+
+        # expired or not
+        if reminder.reminder_date > Time.now.utc
+          puts "Enabling schedule: #{reminer_title}"
+        else
+          puts "Disabling schedule: #{reminer_title}"
+        end
+
+        enabled = reminder.reminder_date > Time.now.utc
 
         # fixed reminder
         Sidekiq.set_schedule(reminer_title, { 'at' => [reminder.reminder_date],
                                               'class' => 'Workers::SendReminder',
-                                              'enabled' => true,
+                                              'enabled' => enabled,
                                               'args' => [topic_arn,
                                                          reminder.content] })
       end

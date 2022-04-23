@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'notification'
-
 module NotificationTesting
   # Models a secret assignment
   class DeleteParticipant
@@ -20,7 +18,7 @@ module NotificationTesting
 
       Participant.where(id: id).destroy if subscription.empty?
     rescue
-      puts 'fail to create participant'
+      puts 'fail to delete participant'
     end
   end
 end

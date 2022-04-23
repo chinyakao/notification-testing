@@ -42,7 +42,6 @@ module Workers
 
     def perform(topic_arn, message)
       puts 'Message sending.'
-      puts "second:::: #{App.config.AWS_REGION}"
 
       sns_client = Aws::SNS::Client.new(
         access_key_id: App.config.AWS_ACCESS_KEY_ID,

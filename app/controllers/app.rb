@@ -129,7 +129,7 @@ module NotificationTesting
           routing.on 'deletion' do
             routing.post do
               action = routing.params['_method']
-              Reminder.where(id: reminder_id).destroy if action == 'DELETE'
+              DeleteReminder.new.call(id: reminder_id) if action == 'DELETE'
 
               redirect_route = routing.params['redirect_route']
 

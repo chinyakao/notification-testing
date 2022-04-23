@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'notification'
-require 'rufus-scheduler'
 require 'sidekiq-scheduler'
-require 'sidekiq/api'
 
 module NotificationTesting
   # Models a secret assignment
@@ -26,6 +23,7 @@ module NotificationTesting
         reminer_title = "#{reminder.title}_#{reminder.id}"
 
         # fixed
+        puts "Disabling schedule: #{reminer_title}"
         Sidekiq.set_schedule(reminer_title, { 'class' => 'Workers::SendReminder',
                                               'enabled' => false })
       end
