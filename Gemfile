@@ -5,6 +5,7 @@ ruby File.read('.ruby-version').strip
 
 # Configuration and Utilities
 gem 'figaro', '~> 1.2'
+gem 'rack-attack'
 gem 'rake'
 
 # Web Application
@@ -20,8 +21,8 @@ gem 'dry-types', '~> 1.5'
 gem 'sequel', '~> 5.49'
 
 group :development, :test do
-  gem 'sqlite3', '~> 1.4'
   gem 'sequel-seed'
+  gem 'sqlite3', '~> 1.4'
 end
 
 group :production do

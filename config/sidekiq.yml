@@ -1,6 +1,6 @@
-# config/sidekiq.yml
+# Configuration options for sidekiq
 
 :dynamic: true
 # :dynamic_every: <if dynamic is true, the schedule is reloaded every interval [5s by default]>
-:queues:
+queues:
   - default

@@ -15,10 +15,6 @@ module NotificationTesting
       )
     end
 
-    def local_running_sys(date)
-      Time.gm(date.year, date.month, date.day, date.hour, date.min, date.sec)
-    end
-
     def call(study_id:)
       reminder_list = Reminder.where(owner_study_id: study_id).all
       topic_arn = Study.where(id: study_id).first.aws_arn
@@ -29,19 +25,14 @@ module NotificationTesting
         next unless reminder.reminder_date > Time.now.utc
 
         reminer_title = "#{reminder.title}_#{reminder.id}"
-        # reminder_time = local_running_sys(reminder.reminder_date).getlocal.strftime('%Y/%m/%d %H:%M:%S')
-        reminder_time = reminder.reminder_date.getlocal.strftime('%Y/%m/%d %H:%M:%S')
+        puts "Create scheduler: #{reminer_title}"
 
-        # ISSUE: encode the credential, scheduler timezone
-        Sidekiq.set_schedule(reminer_title, { 'at' => [reminder_time],
+        # fixed reminder
+        Sidekiq.set_schedule(reminer_title, { 'at' => [reminder.reminder_date],
                                               'class' => 'Workers::SendReminder',
                                               'enabled' => true,
-                                              'args' => [@config.AWS_ACCESS_KEY_ID,
-                                                         @config.AWS_SECRET_ACCESS_KEY,
-                                                         @config.AWS_REGION,
-                                                         topic_arn,
+                                              'args' => [topic_arn,
                                                          reminder.content] })
-        # puts "create scheduler: #{reminer_title}"
       end
       Study.where(id: study_id).update(status: 'launched')
     rescue

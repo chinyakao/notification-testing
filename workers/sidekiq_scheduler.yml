@@ -1,10 +1,8 @@
-# workers/sidekiq_scheduler.yml
-
-# define the cron jobs here
+# define the cron, static, scheduler jobs here
 
 # :schedule: # (this header line used in config/sidekiq.yml)
 work_well:
   cron: '* * * * *'   # Runs once per minute
   class: Workers::WorkWell
   description: "This job shows the scheduler work well"
-  enabled: true
+  enabled: false

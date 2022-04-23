@@ -80,12 +80,12 @@ namespace :worker do
   namespace :run do
     desc 'Run the background worker for scheduling job in development mode'
     task :dev => :config do
-      sh 'RACK_ENV=development bundle exec sidekiq -r ./workers/jobs_scheduler_dev.rb'
+      sh 'RACK_ENV=development bundle exec sidekiq -r ./workers/jobs_scheduler.rb'
     end
 
     desc 'Run the background worker for scheduling job in testing mode'
     task :test => :config do
-      sh 'RACK_ENV=development bundle exec sidekiq -r ./workers/jobs_scheduler_test.rb'
+      sh 'RACK_ENV=development bundle exec sidekiq -r ./workers/jobs_scheduler.rb'
     end
 
     desc 'Run the background worker for scheduling job in production mode'
