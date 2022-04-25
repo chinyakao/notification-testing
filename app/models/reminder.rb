@@ -22,8 +22,8 @@ module NotificationTesting
           id: id,
           type: type,
           title: title,
-          # reminder_date: local_running_sys(reminder_date).getlocal.strftime('%Y-%m-%d %H:%M:%S'),
-          reminder_date: reminder_date.getlocal.strftime('%Y-%m-%d %H:%M:%S'),
+          # fixed_timestamp: local_running_sys(fixed_timestamp).getlocal.strftime('%Y-%m-%d %H:%M:%S'),
+          fixed_timestamp: fixed_timestamp.getlocal.strftime('%Y-%m-%d %H:%M:%S'),
           content: content,
           owner_study: owner_study
         }

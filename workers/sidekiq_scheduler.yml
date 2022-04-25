@@ -6,3 +6,8 @@ work_well:
   class: Workers::WorkWell
   description: "This job shows the scheduler work well"
   enabled: false
+random_reminder:
+  cron: '5 0 * * *'
+  class: Workers::UpdateRandomReminder
+  description: "update everydays random reminder with a different time"
+  enabled: true

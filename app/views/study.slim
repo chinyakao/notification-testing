@@ -105,50 +105,107 @@
     div class="modal fade" id="CreateReminderModal" tabindex="-1" aria-labelledby="#CreateReminderModal" aria-hidden="true"
       div class="modal-dialog"
         div class="modal-content"
-          form role="form" action="/reminder" method='post'
+          form role="form" id="reminder_form" action="/reminder" method='post'
             div class="modal-body main-color"
               div class="form-group"
                 div.mb-2 for='name_input' Create a new Reminder!
                 label.my-1 for='name_input' Title (unique)
                 input class='form-control form-control-sm' name="title" type="text" placeholder="eg. morning_call"
                 label.my-1 for='name_input' Type
-                select class="form-select form-select-sm" name="type" aria-label="Default select example"
+                select class="form-select form-select-sm mb-3" name="type" aria-label="Default select example" id="reminder_type" 
                   option value="fixed" Fixed
                   option value="repeating" Repeating
-                label.my-1 for='name_input' Reminder Date
-                .row 
-                  .col-4
-                    select class="form-select form-select-sm" name="year" aria-label="Default select example"
-                      - 5.times do |index|
-                        option value="#{now_time.year+index}"
-                          = now_time.year+index
-                  .col-4
-                    select class="form-select form-select-sm" name="month" aria-label="Default select example"
-                      - 12.times do |index|
-                        option value="#{index+1}"
-                          = index+1
-                  .col-4
-                    select class="form-select form-select-sm" name="day" aria-label="Default select example"
-                      - 31.times do |index|
-                        option value="#{index+1}"
-                          = index+1 
-                label.my-1 for='name_input' Reminder Time 
-                .row
-                  .col-4
-                    select class="form-select form-select-sm" name="hour" aria-label="Default select example"
-                      - 24.times do |index|
-                        option value="#{index}"
-                          = index 
-                  .col-4
-                    select class="form-select form-select-sm" name="min" aria-label="Default select example"
-                      - 60.times do |index|
-                        option value="#{index}"
-                          = index
-                  .col-4
-                    select class="form-select form-select-sm" name="sec" aria-label="Default select example"
-                      - 60.times do |index|
-                        option value="#{index}"
-                          = index 
+                span id="fixed_timestamp"
+                  label.my-1 for='name_input' Reminder Date
+                  .row 
+                    .col-4
+                      select class="form-select form-select-sm" name="fixed_year" aria-label="Default select example"
+                        - 5.times do |index|
+                          option value="#{now_time.year+index}"
+                            = now_time.year+index
+                    .col-4
+                      select class="form-select form-select-sm" name="fixed_month" aria-label="Default select example"
+                        - 12.times do |index|
+                          option value="#{index+1}"
+                            = index+1
+                    .col-4
+                      select class="form-select form-select-sm" name="fixed_day" aria-label="Default select example"
+                        - 31.times do |index|
+                          option value="#{index+1}"
+                            = index+1 
+                  label.my-1 for='name_input' Reminder Time 
+                  .row
+                    .col-4
+                      select class="form-select form-select-sm" name="fixed_hour" aria-label="Default select example"
+                        - 24.times do |index|
+                          option value="#{index}"
+                            = index 
+                    .col-4
+                      select class="form-select form-select-sm" name="fixed_min" aria-label="Default select example"
+                        - 12.times do |index|
+                          option value="#{index*5}"
+                            = index*5
+                span id="reminder_schedule"
+                  label.my-1 for='name_input' Reminder Schedule 
+                  .row
+                    .col-2
+                      label.col-form-label for='name_input' Every
+                    .col
+                      select class="form-select form-select-sm" name="repeat_every" aria-label="Default select example" id="repeat_every"
+                        option value="day" Day
+                        option value="week" Week
+                  .row id="repeat_on"
+                    .col-2
+                      label.col-form-label for='name_input' On
+                    .col
+                      input class='form-control form-control-sm' name="repeat_on" type="text" placeholder='Sun to Tue eg. 0,1,2'
+                  .row
+                    .col-2
+                      label.col-form-label for='name_input' At
+                    .col
+                      select class="form-select form-select-sm" name="repeat_at" aria-label="Default select example" id="repeat_at"
+                        option value="set_time" Set Time
+                        option value="random" Random
+                  .row id="repeat_at_set_time"
+                    .col-2
+                      label.col-form-label for='name_input' Time
+                    .col-auto
+                      select class="form-select form-select-sm" name="repeat_set_time_hour" aria-label="Default select example"
+                        - 24.times do |index|
+                          option value="#{index}"
+                            = index
+                    .col-auto
+                      select class="form-select form-select-sm" name="repeat_set_time_min" aria-label="Default select example"
+                        - 12.times do |index|
+                          option value="#{index*5}"
+                            = index*5 
+                  .row.g-3.align-items-center id="repeat_at_random"
+                    .col-2
+                      label.col-form-label for='name_input' Between
+                    .col-auto
+                      select class="form-select form-select-sm" name="repeat_random_start_hour" aria-label="Default select example"
+                        - 24.times do |index|
+                          option value="#{index}"
+                            = index
+                    .col-auto
+                      select class="form-select form-select-sm" name="repeat_random_start_min" aria-label="Default select example"
+                        - 12.times do |index|
+                          option value="#{index*5}"
+                            = index*5 
+                    .col-1
+                      label.col-form-label for='name_input' to
+                    .col-auto
+                      select class="form-select form-select-sm" name="repeat_random_start_hour" aria-label="Default select example"
+                        - 24.times do |index|
+                          option value="#{index}"
+                            = index
+                    .col-auto
+                      select class="form-select form-select-sm" name="repeat_random_start_min" aria-label="Default select example"
+                        - 12.times do |index|
+                          option value="#{index*5}"
+                            = index*5 
+                label.mb-1.mt-3 for='name_input' Time Zone In
+                input class='form-control form-control-sm' name="reminder_tz" type="text" placeholder='TZ database name eg. Asia/Taipei'
                 label.my-1 for='name_input' Content (shown in reminder message)
                 input class='form-control form-control-sm' name="content" type="text" placeholder='eg. please fill in this form 2: https://www.google.com.'
                 input type="hidden" name="owner_study_id" value="#{study.id}"
@@ -176,6 +233,62 @@
                 td
                   = reminder[:attributes][:type]
                 td
-                  = reminder[:attributes][:reminder_date]
+                  = reminder[:attributes][:fixed_timestamp]
                 td
                   = reminder[:attributes][:content]
+javascript:
+  var reminder_type = $("#reminder_type").val();
+  var repeat_every = $("#repeat_every").val();
+  var repeat_at = $("#repeat_at").val();
+  
+  function check_reminder_type(reminder_type){
+    if(reminder_type == 'fixed'){
+      $('#fixed_timestamp').removeClass('d-none');
+      $('#reminder_schedule').addClass('d-none');
+    }
+    else{
+      $('#fixed_timestamp').addClass('d-none');
+      $('#reminder_schedule').removeClass('d-none');
+    }
+  };
+
+  function check_repeat_every(repeat_every){
+    if(repeat_every == 'day'){
+      $('#repeat_on').addClass('d-none');
+    }
+    else{
+      $('#repeat_on').removeClass('d-none');
+    }
+  };
+
+  function check_repeat_at(repeat_at){
+    if(repeat_at == 'set_time'){
+      $('#repeat_at_random').addClass('d-none');
+      $('#repeat_at_set_time').removeClass('d-none');
+    }
+    else{
+      $('#repeat_at_random').removeClass('d-none');
+      $('#repeat_at_set_time').addClass('d-none');
+    }
+  };
+
+  check_reminder_type(reminder_type);
+  check_repeat_every(repeat_every);
+  check_repeat_at(repeat_at);
+
+  $("#reminder_type").change(() => {
+    var reminder_type = $("#reminder_type").val();
+    check_reminder_type(reminder_type)
+  });
+
+  $("#repeat_every").change(() => {
+    var repeat_every = $("#repeat_every").val();
+    check_repeat_every(repeat_every)
+  });
+
+  $("#repeat_at").change(() => {
+    var repeat_at = $("#repeat_at").val();
+    check_repeat_at(repeat_at)
+  });
+
+  /*$("#reminder_form").serializeArray()*/

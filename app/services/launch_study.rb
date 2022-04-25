@@ -23,16 +23,16 @@ module NotificationTesting
         reminer_title = "#{reminder.title}_#{reminder.id}"
 
         # expired or not
-        if reminder.reminder_date > Time.now.utc
+        if reminder.fixed_timestamp > Time.now.utc
           puts "Enabling schedule: #{reminer_title}"
         else
           puts "Disabling schedule: #{reminer_title}"
         end
 
-        enabled = reminder.reminder_date > Time.now.utc
+        enabled = reminder.fixed_timestamp > Time.now.utc
 
         # fixed reminder
-        Sidekiq.set_schedule(reminer_title, { 'at' => [reminder.reminder_date],
+        Sidekiq.set_schedule(reminer_title, { 'at' => [reminder.fixed_timestamp],
                                               'class' => 'Workers::SendReminder',
                                               'enabled' => enabled,
                                               'args' => [topic_arn,
