@@ -3,6 +3,7 @@
 require 'cronex'
 require 'json'
 require 'sequel'
+require 'time'
 
 module NotificationTesting
   # Models a secret assignment
@@ -15,18 +16,23 @@ module NotificationTesting
       Time.gm(date.year, date.month, date.day, date.hour, date.min, date.sec)
     end
 
-    def check_dateandtime(type, fixed_timestamp,repeat_at, repeat_set_time, repeat_random_every)
+    def time_parse(time)
+      Time.parse(time).strftime('%H:%M')
+    end
+
+    def make_dateandtime
       case type
       when 'fixed'
-        fixed_timestamp.getlocal.strftime('%Y-%m-%d %H:%M:%S')
+        fixed_timestamp.getlocal.strftime('%Y-%m-%d %H:%M')
+        # local_running_sys(fixed_timestamp).getlocal.strftime('%Y-%m-%d %H:%M:%S')
       when 'repeating'
         case repeat_at
         when 'set_time'
           Cronex::ExpressionDescriptor.new(repeat_set_time).description
         when 'random'
           repeat = Cronex::ExpressionDescriptor.new("0 0 #{repeat_random_every}").description
-          repeat = repeat.split('only')[1] if repeat.split('only').length > 1
-          "random between #{repeat_random_start} to #{repeat_random_end}, #{repeat}"
+          repeat = repeat.split('only').length > 1 ? repeat.split('only')[1] : 'on Everyday'
+          "random between #{time_parse(repeat_random_start)} to #{time_parse(repeat_random_end)}, #{repeat}"
         end
       end
     end
@@ -39,8 +45,7 @@ module NotificationTesting
           id: id,
           type: type,
           title: title,
-          # fixed_timestamp: local_running_sys(fixed_timestamp).getlocal.strftime('%Y-%m-%d %H:%M:%S'),
-          dateandtime: check_dateandtime(type, fixed_timestamp, repeat_at, repeat_set_time, repeat_random_every),
+          dateandtime: make_dateandtime,
           content: content,
           owner_study: owner_study
         }
