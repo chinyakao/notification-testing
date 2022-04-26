@@ -28,7 +28,7 @@ module NotificationTesting
 
         enabled = study[:status] == 'launched' && reminder.fixed_timestamp > Time.now.utc
         Sidekiq.set_schedule(reminer_title, { 'at' => [reminder.fixed_timestamp],
-                                              'class' => 'Workers::SendReminder',
+                                              'class' => 'Jobs::SendReminder',
                                               'enabled' => enabled,
                                               'args' => [study.aws_arn,
                                                          reminder.content] })
@@ -37,13 +37,13 @@ module NotificationTesting
         case reminder.repeat_at
         when 'set_time'
           Sidekiq.set_schedule(reminer_title, { 'cron' => [reminder.repeat_set_time],
-                                                'class' => 'Workers::SendReminder',
+                                                'class' => 'Jobs::SendReminder',
                                                 'enabled' => enabled,
                                                 'args' => [study.aws_arn,
                                                            reminder.content] })
         when 'random'
           Sidekiq.set_schedule(reminer_title, { 'cron' => create_repeat_random_schedule(reminder),
-                                                'class' => 'Workers::SendReminder',
+                                                'class' => 'Jobs::SendReminder',
                                                 'enabled' => enabled,
                                                 'args' => [study.aws_arn,
                                                            reminder.content] })

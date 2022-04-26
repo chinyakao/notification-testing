@@ -24,7 +24,7 @@ module NotificationTesting
 
         # fixed
         puts "Disabling schedule: #{reminer_title}"
-        Sidekiq.set_schedule(reminer_title, { 'class' => 'Workers::SendReminder',
+        Sidekiq.set_schedule(reminer_title, { 'class' => 'Jobs::SendReminder',
                                               'enabled' => false })
       end
       Study.where(id: study_id).update(status: 'design')

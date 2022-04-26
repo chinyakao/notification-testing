@@ -7,8 +7,8 @@ require 'sidekiq-scheduler'
 require 'sidekiq/web'
 require_relative '../require_app'
 
-# Workers
-module Workers
+# Jobs
+module Jobs
   # Testing sidekiq
   class WorkWell
     include Sidekiq::Worker
@@ -34,7 +34,7 @@ module Workers
     Sidekiq.configure_server do |config|
       config.on(:startup) do
         # config.redis = { url: ENV['REDIS_URL'] } # no need to define
-        Sidekiq.schedule = YAML.load_file(File.expand_path('workers/sidekiq_scheduler.yml'))
+        Sidekiq.schedule = YAML.load_file(File.expand_path('jobs/sidekiq_scheduler.yml'))
         SidekiqScheduler::Scheduler.instance.reload_schedule!
       end
     end
@@ -59,7 +59,7 @@ module Workers
         next if schedule.nil?
 
         Sidekiq.set_schedule(reminder_title, { 'cron' => cron,
-                                               'class' => 'Workers::SendReminder',
+                                               'class' => 'Jobs::SendReminder',
                                                'enabled' => schedule['enabled'],
                                                'args' => schedule['args'] })
       end
