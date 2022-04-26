@@ -16,29 +16,13 @@ module NotificationTesting
 
     def call(study_id:)
       reminder_list = Reminder.where(owner_study_id: study_id).all
-      topic_arn = Study.where(id: study_id).first.aws_arn
+      study = Study.where(id: study_id).update(status: 'launched')
 
       # scheduler reminders
       reminder_list.map do |reminder|
-        reminer_title = "#{reminder.title}_#{reminder.id}"
-
-        # expired or not
-        if reminder.fixed_timestamp > Time.now.utc
-          puts "Enabling schedule: #{reminer_title}"
-        else
-          puts "Disabling schedule: #{reminer_title}"
-        end
-
-        enabled = reminder.fixed_timestamp > Time.now.utc
-
-        # fixed reminder
-        Sidekiq.set_schedule(reminer_title, { 'at' => [reminder.fixed_timestamp],
-                                              'class' => 'Workers::SendReminder',
-                                              'enabled' => enabled,
-                                              'args' => [topic_arn,
-                                                         reminder.content] })
+        CreateSchedule.new.call(reminder: reminder)
       end
-      Study.where(id: study_id).update(status: 'launched')
+      study
     rescue
       puts 'fail to launch study'
     end

@@ -46,16 +46,22 @@ module Workers
     require_app
 
     def perform
-      reminder_list = NotificationTesting::Reminder.where(repeat_set_random: 'random').all
-      reminder_list.map do |reminder|
-        r_start = Time.parse(reminder.repeat_random_start) # "10:00"
-        r_end = Time.parse(reminder.repeat_random_end) # "12:00"
-        r_result = r_start + rand(r_end - r_start)
-        reminder.repeat_random_every[0] = r_result.min.to_s
-        reminder.repeat_random_every[3] = r_result.hour.to_s
+      reminder_list = NotificationTesting::Reminder.where(repeat_at: 'random').all
 
-        reminer_title = "#{reminder.title}_#{reminder.id}"
-        Sidekiq.set_schedule(reminer_title, { 'cron' => repeat_random_every })
+      return if reminder_list.empty?
+
+      reminder_list.each do |reminder|
+        cron = NotificationTesting::CreateSchedule.new.create_repeat_random_schedule(reminder)
+
+        reminder_title = "#{reminder.title}_#{reminder.id}"
+        schedule = Sidekiq.get_schedule(reminder_title)
+
+        next if schedule.nil?
+
+        Sidekiq.set_schedule(reminder_title, { 'cron' => cron,
+                                               'class' => 'Workers::SendReminder',
+                                               'enabled' => schedule['enabled'],
+                                               'args' => schedule['args'] })
       end
     end
   end

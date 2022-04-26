@@ -14,6 +14,20 @@ module NotificationTesting
       Time.gm(date.year, date.month, date.day, date.hour, date.min, date.sec)
     end
 
+    def check_dateandtime(type, fixed_timestamp,repeat_at, repeat_set_time, repeat_random_every)
+      case type
+      when 'fixed'
+        fixed_timestamp.getlocal.strftime('%Y-%m-%d %H:%M:%S')
+      when 'repeating'
+        case repeat_at
+        when 'set_time'
+          repeat_set_time.to_s
+        when 'random'
+          repeat_random_every.to_s
+        end
+      end
+    end
+
     # rubocop:disable Metrics/MethodLength
     def to_h
       {
@@ -23,7 +37,7 @@ module NotificationTesting
           type: type,
           title: title,
           # fixed_timestamp: local_running_sys(fixed_timestamp).getlocal.strftime('%Y-%m-%d %H:%M:%S'),
-          fixed_timestamp: fixed_timestamp.getlocal.strftime('%Y-%m-%d %H:%M:%S'),
+          dateandtime: check_dateandtime(type, fixed_timestamp, repeat_at, repeat_set_time, repeat_random_every),
           content: content,
           owner_study: owner_study
         }

@@ -195,12 +195,12 @@
                     .col-1
                       label.col-form-label for='name_input' to
                     .col-auto
-                      select class="form-select form-select-sm" name="repeat_random_start_hour" aria-label="Default select example"
+                      select class="form-select form-select-sm" name="repeat_random_end_hour" aria-label="Default select example"
                         - 24.times do |index|
                           option value="#{index}"
                             = index
                     .col-auto
-                      select class="form-select form-select-sm" name="repeat_random_start_min" aria-label="Default select example"
+                      select class="form-select form-select-sm" name="repeat_random_end_min" aria-label="Default select example"
                         - 12.times do |index|
                           option value="#{index*5}"
                             = index*5 
@@ -233,7 +233,7 @@
                 td
                   = reminder[:attributes][:type]
                 td
-                  = reminder[:attributes][:fixed_timestamp]
+                  = reminder[:attributes][:dateandtime]
                 td
                   = reminder[:attributes][:content]
 javascript:

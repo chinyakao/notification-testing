@@ -13,11 +13,11 @@ Sequel.migration do
       Time        :fixed_timestamp, default: Time.now
       String      :content, default: 'This is a reminder message'
       String      :reminder_tz # reminder's timezone offset (seconds) eg. 32400 (+09:00 -> 9*60*60)
-      String      :repeat_set_random, default: 'set'
+      String      :repeat_at, default: 'set_time'
       String      :repeat_set_time
       # every day/week at specific time eg. '33 10 * * 0-4' -> every Sunday through Thursday at 10:33
       # convert back to human readable: https://github.com/alpinweis/cronex
-      String      :repeat_random_every # random's time day or week on Mon, Tue... eg. '? ? * * 1,2'
+      String      :repeat_random_every # random's time day or week on Mon, Tue... eg. '* * 1,2'
       String      :repeat_random_start # random's time interval start
       String      :repeat_random_end   # random's time interval end
 
