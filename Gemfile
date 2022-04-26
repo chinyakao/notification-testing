@@ -34,6 +34,7 @@ gem 'http', '~> 5.0'
 
 # Notification
 gem 'aws-sdk-sns'
+gem 'cronex'
 gem 'nokogiri'
 gem 'sidekiq'
 gem 'sidekiq-scheduler'

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'cronex'
 require 'json'
 require 'sequel'
 
@@ -21,9 +22,11 @@ module NotificationTesting
       when 'repeating'
         case repeat_at
         when 'set_time'
-          repeat_set_time.to_s
+          Cronex::ExpressionDescriptor.new(repeat_set_time).description
         when 'random'
-          repeat_random_every.to_s
+          repeat = Cronex::ExpressionDescriptor.new("0 0 #{repeat_random_every}").description
+          repeat = repeat.split('only')[1] if repeat.split('only').length > 1
+          "random between #{repeat_random_start} to #{repeat_random_end}, #{repeat}"
         end
       end
     end
